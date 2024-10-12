@@ -23,11 +23,9 @@ class TicketProvider extends ChangeNotifier {
     final accessToken = await storage.read(key: 'access_token');
     final refreshToken = await storage.read(key: 'refresh_token');
     if (accessToken != null && refreshToken != null) {
-      // print("accessToken $accessToken refreshToken $refreshToken");
       _ticketList =
           await TicketService().getAllTickets(accessToken, refreshToken);
       _hasTicket = true;
-      // print("ticket $ticketList");
       _bgImgUrl = _ticketList[0].eventBackgroundImageUrl!;
       notifyListeners();
     }
@@ -35,7 +33,6 @@ class TicketProvider extends ChangeNotifier {
 
   setBgImg(int index) {
     _bgImgUrl = ticketList[index].eventBackgroundImageUrl!;
-    print("change bgImg");
     notifyListeners();
   }
 }

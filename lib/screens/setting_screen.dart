@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:xive/utils/apple_login.dart';
 import 'package:xive/widgets/setting_divider.dart';
 import 'package:xive/widgets/title_bar.dart';
 
@@ -16,9 +17,15 @@ class SettingScreen extends StatelessWidget {
 
   Future<void> _loadLoginData() async {
     loginType = await storage.read(key: 'login_type');
+    // null이면 서버요청
     email = await storage.read(key: 'email');
     email ??= await storage.read(key: 'name');
+    // null이면 서버요청
     packageInfo = await PackageInfo.fromPlatform();
+  }
+
+  void logout(BuildContext context) async {
+    Navigator.pushNamedAndRemoveUntil(context, '/signup', (route) => false);
   }
 
   @override
@@ -217,29 +224,34 @@ class SettingScreen extends StatelessWidget {
                       ),
                     ),
                     const SettingDivider(),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Row(
                             children: [
-                              SizedBox(
-                                height: 56,
-                                child: Center(
-                                  child: Text(
-                                    '로그아웃',
-                                    style: TextStyle(
-                                      color: Color(0xff9e9e9e),
-                                      fontSize: 16,
-                                      letterSpacing: -0.02,
+                              GestureDetector(
+                                onTap: () {
+                                  logout(context);
+                                },
+                                child: const SizedBox(
+                                  height: 56,
+                                  child: Center(
+                                    child: Text(
+                                      '로그아웃',
+                                      style: TextStyle(
+                                        color: Color(0xff9e9e9e),
+                                        fontSize: 16,
+                                        letterSpacing: -0.02,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                          Row(
+                          const Row(
                             children: [
                               SizedBox(
                                 height: 56,

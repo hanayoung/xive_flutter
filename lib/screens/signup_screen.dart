@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:xive/utils/apple_login.dart';
 import 'package:xive/utils/kakao_login.dart';
 import 'package:xive/widgets/long_icon_btn.dart';
 
@@ -29,71 +30,31 @@ class SignupScreen extends StatelessWidget {
             Flexible(
               flex: 1,
               child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                  ),
-                  child: Column(
-                    children: [
-                      const LongIconBtn(
-                        text: '카카오로 시작하기',
-                        imgPath: "assets/images/login_kakao_icon.svg",
-                        backgroundColor: 0xfffee500,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Platform.isIOS
-                          ? const LongIconBtn(
-                              text: 'Apple로 시작하기',
-                              imgPath: "assets/images/apple_small_icon.svg",
-                              backgroundColor: 0xffffffff,
-                            )
-                          : Container(),
-                    ],
-                  )
-                  // Row(
-                  //   children: [
-                  //     Expanded(
-                  //       child: ElevatedButton(
-                  //         style: ElevatedButton.styleFrom(
-                  //             backgroundColor: const Color(0xfffee500),
-                  //             shape: RoundedRectangleBorder(
-                  //               borderRadius: BorderRadius.circular(5),
-                  //             ),
-                  //             padding: const EdgeInsets.symmetric(
-                  //               vertical: 16,
-                  //               horizontal: 20,
-                  //             )),
-                  //         onPressed: () async {
-                  //           await kakaoSignUp(context);
-                  //         },
-                  //         child: Row(
-                  //           mainAxisAlignment: MainAxisAlignment.start,
-                  //           children: [
-                  //             SvgPicture.asset(
-                  //               "assets/images/login_kakao_icon.svg",
-                  //               width: 20,
-                  //               height: 20,
-                  //             ),
-                  //             Expanded(
-                  //               child: Row(
-                  //                 mainAxisAlignment: MainAxisAlignment.center,
-                  //                 children: [
-                  //                   Text(
-                  //                     '카카오로 시작하기',
-                  //                     style:
-                  //                         Theme.of(context).textTheme.bodyMedium,
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                ),
+                child: Column(
+                  children: [
+                    const LongIconBtn(
+                      text: '카카오로 시작하기',
+                      imgPath: "assets/images/login_kakao_icon.svg",
+                      backgroundColor: 0xfffee500,
+                      isApple: false,
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Platform.isIOS
+                        ? const LongIconBtn(
+                            text: 'Apple로 시작하기',
+                            imgPath: "assets/images/apple_small_icon.svg",
+                            backgroundColor: 0xffffffff,
+                            isApple: true,
+                          )
+                        : Container(),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
