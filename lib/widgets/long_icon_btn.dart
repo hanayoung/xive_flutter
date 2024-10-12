@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:xive/utils/apple_login.dart';
 import 'package:xive/utils/kakao_login.dart';
 
 class LongIconBtn extends StatelessWidget {
   final String text, imgPath;
   final int backgroundColor;
+  final bool isApple;
+
+  // final Function? login;
+
   const LongIconBtn({
     super.key,
     required this.text,
     required this.imgPath,
     required this.backgroundColor,
+    required this.isApple,
   });
 
   @override
@@ -32,7 +38,7 @@ class LongIconBtn extends StatelessWidget {
                     horizontal: 20,
                   )),
               onPressed: () async {
-                await kakaoSignUp(context);
+                isApple ? await appleLogin() : await kakaoSignUp(context);
                 // 여기서 분기처리해야할듯?
               },
               child: Row(

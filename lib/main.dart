@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
-import 'package:xive/providers/home_bg_provider.dart';
 import 'package:xive/providers/schedule_provider.dart';
 import 'package:xive/providers/ticket_provider.dart';
 import 'package:xive/screens/home_screen.dart';
@@ -45,9 +44,6 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => ScheduleProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => HomeBgProvider(),
         ),
       ],
       child: MaterialApp(

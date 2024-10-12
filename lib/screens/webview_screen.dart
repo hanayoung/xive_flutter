@@ -1,6 +1,13 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+// Import for Android features.
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+// Import for iOS/macOS features.
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:xive/widgets/title_bar.dart';
 
 class WebviewScreen extends StatefulWidget {
   final String webUrl;
@@ -24,6 +31,7 @@ class _WebviewScreen extends State<WebviewScreen> {
   dynamic refreshToken = '';
   static const storage = FlutterSecureStorage();
   bool _isControllerIntialized = false;
+  late WebViewWidget webViewWidget;
 
   _asyncMethod() async {
     accessToken = await storage.read(key: 'access_token');
@@ -41,14 +49,45 @@ class _WebviewScreen extends State<WebviewScreen> {
 
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(NavigationDelegate(
+      ..setNavigationDelegate(
+        NavigationDelegate(
           onPageFinished: (value) => {
-                controller.runJavaScript(
-                    "javascript:initWeb('$accessToken','$refreshToken',${widget.eventId}, ${widget.ticketId}, ${widget.isNewVisited})")
-              }))
+            controller.runJavaScript(
+                "javascript:initWeb('$accessToken','$refreshToken',${widget.eventId}, ${widget.ticketId}, ${widget.isNewVisited})")
+          },
+        ),
+      )
       ..loadRequest(
         Uri.parse(widget.webUrl),
       );
+
+    PlatformWebViewWidgetCreationParams params =
+        PlatformWebViewWidgetCreationParams(
+      controller: controller.platform,
+      layoutDirection: TextDirection.ltr,
+      gestureRecognizers: const <Factory<VerticalDragGestureRecognizer>>{},
+    );
+
+    if (controller.platform is WebKitWebViewController) {
+      (controller.platform as WebKitWebViewController)
+          .setAllowsBackForwardNavigationGestures(true);
+    }
+    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+      params = WebKitWebViewWidgetCreationParams
+          .fromPlatformWebViewWidgetCreationParams(
+        params,
+      );
+    } else if (WebViewPlatform.instance is AndroidWebViewPlatform) {
+      params = AndroidWebViewWidgetCreationParams
+          .fromPlatformWebViewWidgetCreationParams(
+        params,
+      );
+    }
+    webViewWidget = WebViewWidget(controller: controller);
+    webViewWidget = WebViewWidget.fromPlatformCreationParams(
+      params: params,
+    );
+
     setState(() {
       _isControllerIntialized = true;
     });
@@ -68,9 +107,16 @@ class _WebviewScreen extends State<WebviewScreen> {
     return Scaffold(
         body: SafeArea(
       child: _isControllerIntialized
-          ? WillPopScope(
-              onWillPop: () => onGoBack(),
-              child: WebViewWidget(controller: controller),
+          ? Column(
+              children: [
+                const TitleBar(title: ""),
+                Expanded(
+                  child: WillPopScope(
+                    onWillPop: () => onGoBack(),
+                    child: webViewWidget,
+                  ),
+                ),
+              ],
             )
           : const Center(
               child: CircularProgressIndicator(),
