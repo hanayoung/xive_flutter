@@ -50,7 +50,7 @@ class HomeTicket extends StatelessWidget {
                     ),
                   ),
                   onIndexChanged: (value) {
-                    context.read<TicketProvider>().setBgImg(value);
+                    // context.read<TicketProvider>().setBgImg(value);
                   },
                   itemBuilder: (context, index) {
                     final ticket = ticketList[index];
