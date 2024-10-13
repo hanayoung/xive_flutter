@@ -71,7 +71,7 @@ class Pages {
     ),
     PageItem(
       route: Routes.withdrawal,
-      page: const SettingWithdrawal(),
+      page: SettingWithdrawal(),
     ),
   ];
 
