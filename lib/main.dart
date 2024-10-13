@@ -6,6 +6,7 @@ import 'package:xive/routes/pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await dotenv.load(fileName: ".env");
 
   KakaoSdk.init(
