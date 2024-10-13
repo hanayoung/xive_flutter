@@ -10,9 +10,3 @@ appleLogin() async {
   );
   print(credential.email);
 }
-
-Future<void> clearAll() async {
-  const FlutterSecureStorage storage = FlutterSecureStorage();
-
-  await storage.deleteAll();
-}

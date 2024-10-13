@@ -3,10 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:xive/utils/apple_login.dart';
+import 'package:xive/services/user_service.dart';
+import 'package:xive/widgets/setting_dialog.dart';
 import 'package:xive/widgets/setting_divider.dart';
 import 'package:xive/widgets/title_bar.dart';
+
+import '../routes/pages.dart';
 
 class SettingScreen extends StatelessWidget {
   SettingScreen({super.key});
@@ -14,18 +18,35 @@ class SettingScreen extends StatelessWidget {
   dynamic loginType = '';
   dynamic email = '';
   dynamic packageInfo = '';
+  String? accessToken = "", refreshToken = "";
+
+  void _getUserData() async {
+    accessToken = await storage.read(key: 'access_token');
+    refreshToken = await storage.read(key: 'refresh_token');
+    Map<String, dynamic>? userData =
+        await UserService().getUserData(accessToken, refreshToken);
+
+    loginType = userData['loginType'];
+    email = userData['nickname'];
+    await storage.write(key: 'login_type', value: loginType);
+    await storage.write(key: 'email', value: email);
+  }
 
   Future<void> _loadLoginData() async {
     loginType = await storage.read(key: 'login_type');
-    // null이면 서버요청
+
     email = await storage.read(key: 'email');
     email ??= await storage.read(key: 'name');
     // null이면 서버요청
+    if (email == null || loginType == null) _getUserData();
+
     packageInfo = await PackageInfo.fromPlatform();
   }
 
-  void logout(BuildContext context) async {
-    Navigator.pushNamedAndRemoveUntil(context, '/signup', (route) => false);
+  logout(BuildContext context) async {
+    Navigator.pop(context);
+    await storage.deleteAll();
+    Get.toNamed(Routes.signUp);
   }
 
   @override
@@ -65,7 +86,7 @@ class SettingScreen extends StatelessWidget {
                               ),
                               Row(
                                 children: [
-                                  loginType == "kakao"
+                                  loginType == "KAKAO"
                                       ? SvgPicture.asset(
                                           'assets/images/kakao_small_icon.svg',
                                         )
@@ -94,7 +115,7 @@ class SettingScreen extends StatelessWidget {
                                       child: Center(
                                         child: Text(
                                           '애플 계정 연동하기',
-                                          style: loginType == "apple"
+                                          style: loginType == "APPLE"
                                               ? Theme.of(context)
                                                   .textTheme
                                                   .bodyMedium
@@ -107,7 +128,7 @@ class SettingScreen extends StatelessWidget {
                                       ),
                                     ),
                                     SvgPicture.asset(
-                                      loginType == "apple"
+                                      loginType == "APPLE"
                                           ? 'assets/images/setting_toggle_btn.svg'
                                           : 'assets/images/setting_toggle_off_btn.svg',
                                     ),
@@ -136,24 +157,27 @@ class SettingScreen extends StatelessWidget {
                       ),
                     ),
                     const SettingDivider(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            height: 56,
-                            child: Center(
-                              child: Text(
-                                '1:1 문의',
-                                style: Theme.of(context).textTheme.bodyMedium,
+                    InkWell(
+                      onTap: () => Get.toNamed(Routes.contact),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              height: 56,
+                              child: Center(
+                                child: Text(
+                                  '1:1 문의',
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
                               ),
                             ),
-                          ),
-                          SvgPicture.asset(
-                            'assets/images/right_arrow_icon.svg',
-                          ),
-                        ],
+                            SvgPicture.asset(
+                              'assets/images/right_arrow_icon.svg',
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     const SettingDivider(),
@@ -162,41 +186,49 @@ class SettingScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                height: 56,
-                                child: Center(
-                                  child: Text(
-                                    '서비스 이용 약관',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                          InkWell(
+                            onTap: () => Get.toNamed(Routes.terms),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  height: 56,
+                                  child: Center(
+                                    child: Text(
+                                      '서비스 이용 약관',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SvgPicture.asset(
-                                'assets/images/right_arrow_icon.svg',
-                              ),
-                            ],
+                                SvgPicture.asset(
+                                  'assets/images/right_arrow_icon.svg',
+                                ),
+                              ],
+                            ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                height: 56,
-                                child: Center(
-                                  child: Text(
-                                    '개인정보 처리 방침',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                          InkWell(
+                            onTap: () => Get.toNamed(Routes.pp),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  height: 56,
+                                  child: Center(
+                                    child: Text(
+                                      '개인정보 처리 방침',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SvgPicture.asset(
-                                'assets/images/right_arrow_icon.svg',
-                              ),
-                            ],
+                                SvgPicture.asset(
+                                  'assets/images/right_arrow_icon.svg',
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -231,9 +263,15 @@ class SettingScreen extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              GestureDetector(
+                              InkWell(
                                 onTap: () {
-                                  logout(context);
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return SettingDialog(
+                                          func: logout,
+                                        );
+                                      });
                                 },
                                 child: const SizedBox(
                                   height: 56,
@@ -251,22 +289,25 @@ class SettingScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const Row(
-                            children: [
-                              SizedBox(
-                                height: 56,
-                                child: Center(
-                                  child: Text(
-                                    '회원탈퇴',
-                                    style: TextStyle(
-                                      color: Color(0xff9e9e9e),
-                                      fontSize: 16,
-                                      letterSpacing: -0.02,
+                          InkWell(
+                            onTap: () => Get.toNamed(Routes.withdrawal),
+                            child: const Row(
+                              children: [
+                                SizedBox(
+                                  height: 56,
+                                  child: Center(
+                                    child: Text(
+                                      '회원탈퇴',
+                                      style: TextStyle(
+                                        color: Color(0xff9e9e9e),
+                                        fontSize: 16,
+                                        letterSpacing: -0.02,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),

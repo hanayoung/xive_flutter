@@ -3,7 +3,11 @@ import 'package:get/get.dart';
 import 'package:xive/screens/audio_screen.dart';
 import 'package:xive/screens/home_screen.dart';
 import 'package:xive/screens/on_boarding_screen.dart';
+import 'package:xive/screens/setting_contact_screen.dart';
+import 'package:xive/screens/setting_pp.dart';
 import 'package:xive/screens/setting_screen.dart';
+import 'package:xive/screens/setting_terms.dart';
+import 'package:xive/screens/setting_withdrawal.dart';
 import 'package:xive/screens/signup_screen.dart';
 import 'package:xive/screens/splash_screen.dart';
 
@@ -30,21 +34,20 @@ class Pages {
   static final List<PageItem> pageList = [
     PageItem(
       route: Routes.splash,
-      page: SplashScreen(),
+      page: const SplashScreen(),
       isRoot: true,
     ),
     PageItem(
       route: Routes.signUp,
-      page: SignupScreen(),
+      page: const SignupScreen(),
     ),
     PageItem(
       route: Routes.onBoarding,
-      page: OnBoardingScreen(),
+      page: const OnBoardingScreen(),
     ),
-
     PageItem(
       route: Routes.home,
-      page: HomeScreen(),
+      page: const HomeScreen(),
     ),
     PageItem(
       route: Routes.setting,
@@ -52,18 +55,32 @@ class Pages {
     ),
     PageItem(
       route: Routes.audio,
-      page: AudioScreen(),
+      page: const AudioScreen(),
     ),
-
-
+    PageItem(
+      route: Routes.contact,
+      page: const SettingContactScreen(),
+    ),
+    PageItem(
+      route: Routes.pp,
+      page: const SettingPp(),
+    ),
+    PageItem(
+      route: Routes.terms,
+      page: const SettingTerms(),
+    ),
+    PageItem(
+      route: Routes.withdrawal,
+      page: const SettingWithdrawal(),
+    ),
   ];
 
   static List<GetPage<dynamic>>? _getPages() {
     return pageList
         .map((e) => GetPage(
-        name: e.route,
-        page: () => e.page,
-        ))
+              name: e.route,
+              page: () => e.page,
+            ))
         .toList();
   }
 

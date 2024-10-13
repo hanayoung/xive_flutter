@@ -17,7 +17,6 @@ class TicketService {
           "RefreshToken": refreshToken,
         }));
     if (response.statusCode == 200) {
-      print("response ${response.data}");
       TicketListModel data = TicketListModel.fromJson(response.data);
 
       return data.ticketList;

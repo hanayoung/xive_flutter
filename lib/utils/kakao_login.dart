@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:xive/models/user_login_model.dart';
+import 'package:xive/routes/pages.dart';
 import 'package:xive/services/user_service.dart';
 import 'package:xive/utils/storage_write.dart';
 
@@ -23,15 +25,14 @@ kakaoSignUp(BuildContext context) async {
       List<Map<String, String?>> userData = [
         {'email': user.kakaoAccount?.email},
         {'name': user.kakaoAccount?.profile?.nickname},
-        {'login_type': 'kakao'},
+        {'login_type': 'KAKAO'},
       ];
       writeStorage(userData);
 
       if (response.isNew == true) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, '/onboarding', (route) => false);
+        Get.offAllNamed(Routes.onBoarding);
       } else {
-        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+        Get.offAllNamed(Routes.home);
       }
     } catch (error) {
       print('카카오톡으로 로그인 실패 $error');
@@ -56,14 +57,13 @@ kakaoSignUp(BuildContext context) async {
         List<Map<String, String?>> userData = [
           {'email': user.kakaoAccount?.email},
           {'name': user.kakaoAccount?.profile?.nickname},
-          {'login_type': 'kakao'},
+          {'login_type': 'KAKAO'},
         ];
         writeStorage(userData);
         if (response.isNew == true) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/onboarding', (route) => false);
+          Get.offAllNamed(Routes.onBoarding);
         } else {
-          Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+          Get.offAllNamed(Routes.home);
         }
       } catch (error) {
         print('카카오계정으로 로그인 실패 $error');
@@ -84,14 +84,13 @@ kakaoSignUp(BuildContext context) async {
       List<Map<String, String?>> userData = [
         {'email': user.kakaoAccount?.email},
         {'name': user.kakaoAccount?.profile?.nickname},
-        {'login_type': 'kakao'},
+        {'login_type': 'KAKAO'},
       ];
       writeStorage(userData);
       if (response.isNew == true) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, '/onboarding', (route) => false);
+        Get.offAllNamed(Routes.onBoarding);
       } else {
-        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+        Get.offAllNamed(Routes.home);
       }
       // 이게 진짜 코드
     } catch (error) {
