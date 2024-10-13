@@ -1,8 +1,6 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:xive/models/ticket_model.dart';
-import 'package:xive/providers/ticket_provider.dart';
 import 'package:xive/screens/webview_screen.dart';
 
 class HomeTicket extends StatelessWidget {
@@ -10,8 +8,6 @@ class HomeTicket extends StatelessWidget {
   const HomeTicket({super.key, required this.ticketList});
 
   onTicketClicked(BuildContext context, TicketModel ticket) {
-    print("ticket clicked");
-
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return WebviewScreen(
           webUrl: ticket.eventWebUrl!,
