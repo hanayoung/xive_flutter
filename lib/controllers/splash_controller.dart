@@ -5,6 +5,7 @@ import 'package:xive/controllers/ticket_controller.dart';
 import '../routes/pages.dart';
 
 class SplashController extends GetxController {
+
   static SplashController get to {
     if (Get.isRegistered<SplashController>()) {
       return Get.find();
