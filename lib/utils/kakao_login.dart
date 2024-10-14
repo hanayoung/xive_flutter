@@ -13,7 +13,7 @@ kakaoSignUp(BuildContext context) async {
   if (await isKakaoTalkInstalled()) {
     try {
       OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
-      dynamic response = await UserService().login(token.accessToken);
+      dynamic response = await UserService().kakaoLogin(token.accessToken);
       List<Map<String, String>> tokenData = [
         {'access_token': (response as UserLoginModel).accessToken},
         {'refresh_token': (response).refreshToken},
@@ -45,7 +45,7 @@ kakaoSignUp(BuildContext context) async {
       // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
-        dynamic response = await UserService().login(token.accessToken);
+        dynamic response = await UserService().kakaoLogin(token.accessToken);
         List<Map<String, String>> tokenData = [
           {'access_token': (response as UserLoginModel).accessToken},
           {'refresh_token': (response).refreshToken},
@@ -72,7 +72,7 @@ kakaoSignUp(BuildContext context) async {
   } else {
     try {
       OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
-      dynamic response = await UserService().login(token.accessToken);
+      dynamic response = await UserService().kakaoLogin(token.accessToken);
       List<Map<String, String>> tokenData = [
         {'access_token': (response as UserLoginModel).accessToken},
         {'refresh_token': (response).refreshToken},

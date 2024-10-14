@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:xive/controllers/splash_controller.dart';
 import 'package:xive/services/user_service.dart';
 import 'package:xive/widgets/setting_dialog.dart';
 import 'package:xive/widgets/setting_divider.dart';
@@ -15,32 +16,26 @@ import '../routes/pages.dart';
 class SettingScreen extends StatelessWidget {
   SettingScreen({super.key});
   static const storage = FlutterSecureStorage();
-  dynamic loginType = '';
-  dynamic email = '';
-  dynamic packageInfo = '';
-  String? accessToken = "", refreshToken = "";
+  final SplashController controller = SplashController.to;
 
   void _getUserData() async {
-    accessToken = await storage.read(key: 'access_token');
-    refreshToken = await storage.read(key: 'refresh_token');
-    Map<String, dynamic>? userData =
-        await UserService().getUserData(accessToken, refreshToken);
+    Map<String, dynamic>? userData = await UserService().getUserData(
+        controller.accessToken.value, controller.refreshToken.value);
+    dynamic loginType = userData['loginType'];
+    dynamic name = userData['nickname'];
 
-    loginType = userData['loginType'];
-    email = userData['nickname'];
     await storage.write(key: 'login_type', value: loginType);
-    await storage.write(key: 'email', value: email);
+    // await storage.write(key: 'email', value: email);
   }
 
   Future<void> _loadLoginData() async {
-    loginType = await storage.read(key: 'login_type');
-
-    email = await storage.read(key: 'email');
-    email ??= await storage.read(key: 'name');
     // null이면 서버요청
-    if (email == null || loginType == null) _getUserData();
+    if (controller.email.value == null || controller.loginType.value == null)
+      _getUserData();
+  }
 
-    packageInfo = await PackageInfo.fromPlatform();
+  Future<PackageInfo> _loadPackageInfo() async {
+    return await PackageInfo.fromPlatform();
   }
 
   logout(BuildContext context) async {
@@ -84,9 +79,12 @@ class SettingScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              const SizedBox(
+                                width: 16,
+                              ),
                               Row(
                                 children: [
-                                  loginType == "KAKAO"
+                                  controller.loginType.value == "KAKAO"
                                       ? SvgPicture.asset(
                                           'assets/images/kakao_small_icon.svg',
                                         )
@@ -96,10 +94,18 @@ class SettingScreen extends StatelessWidget {
                                   const SizedBox(
                                     width: 8,
                                   ),
-                                  Text(
-                                    email,
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
+                                  Container(
+                                    constraints: const BoxConstraints(
+                                      maxWidth: 200,
+                                    ),
+                                    child: Text(
+                                      controller.email.value ??
+                                          controller.name.value!,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                    ),
                                   ),
                                 ],
                               )
@@ -115,7 +121,8 @@ class SettingScreen extends StatelessWidget {
                                       child: Center(
                                         child: Text(
                                           '애플 계정 연동하기',
-                                          style: loginType == "APPLE"
+                                          style: controller.loginType.value ==
+                                                  "APPLE"
                                               ? Theme.of(context)
                                                   .textTheme
                                                   .bodyMedium
@@ -128,7 +135,7 @@ class SettingScreen extends StatelessWidget {
                                       ),
                                     ),
                                     SvgPicture.asset(
-                                      loginType == "APPLE"
+                                      controller.loginType.value == "APPLE"
                                           ? 'assets/images/setting_toggle_btn.svg'
                                           : 'assets/images/setting_toggle_off_btn.svg',
                                     ),
@@ -149,7 +156,9 @@ class SettingScreen extends StatelessWidget {
                                 ),
                               ),
                               SvgPicture.asset(
-                                'assets/images/setting_toggle_btn.svg',
+                                controller.loginType.value == "KAKAO"
+                                    ? 'assets/images/setting_toggle_btn.svg'
+                                    : 'assets/images/setting_toggle_off_btn.svg',
                               ),
                             ],
                           ),
@@ -248,10 +257,20 @@ class SettingScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text(
-                            packageInfo.version,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
+                          FutureBuilder<PackageInfo>(
+                              future: _loadPackageInfo(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<PackageInfo> snapshot) {
+                                if (snapshot.hasData) {
+                                  return Text(
+                                    snapshot.data!.version,
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  );
+                                } else {
+                                  return const SizedBox.shrink();
+                                }
+                              }),
                         ],
                       ),
                     ),

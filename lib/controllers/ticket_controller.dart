@@ -28,7 +28,7 @@ class TicketController extends GetxController {
   final Rx<String> _bgImgUrl = "".obs;
   String get bgImgUrl => _bgImgUrl.value;
 
-  Future<void> setTicketList() async {
+  Future<void> _setTicketList() async {
     final accessToken = await storage.read(key: 'access_token');
     final refreshToken = await storage.read(key: 'refresh_token');
     if (accessToken != null && refreshToken != null) {
@@ -38,8 +38,6 @@ class TicketController extends GetxController {
         hasTicket.value = true;
         _bgImgUrl.value = ticketList[0].eventBackgroundImageUrl!;
       }
-
-      update();
     }
   }
 
@@ -50,7 +48,7 @@ class TicketController extends GetxController {
 
   @override
   void onInit() {
-    setTicketList();
+    _setTicketList();
     super.onInit();
   }
 }

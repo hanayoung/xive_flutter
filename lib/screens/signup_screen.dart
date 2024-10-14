@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:xive/utils/apple_login.dart';
-import 'package:xive/utils/kakao_login.dart';
 import 'package:xive/widgets/long_icon_btn.dart';
 
 class SignupScreen extends StatelessWidget {
@@ -19,11 +17,9 @@ class SignupScreen extends StatelessWidget {
           children: [
             Flexible(
               flex: 4,
-              child: Container(
-                child: Center(
-                  child: SvgPicture.asset(
-                    "assets/images/login_logo.svg",
-                  ),
+              child: Center(
+                child: SvgPicture.asset(
+                  "assets/images/login_logo.svg",
                 ),
               ),
             ),
