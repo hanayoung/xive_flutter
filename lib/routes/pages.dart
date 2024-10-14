@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xive/screens/audio_play_screen.dart';
 import 'package:xive/screens/audio_screen.dart';
 import 'package:xive/screens/home_screen.dart';
 import 'package:xive/screens/on_boarding_screen.dart';
@@ -56,6 +57,10 @@ class Pages {
     PageItem(
       route: Routes.audio,
       page: const AudioScreen(),
+    ),
+    PageItem(
+      route: Routes.audioPlay,
+      page: const AudioPlayScreen(),
     ),
     PageItem(
       route: Routes.contact,
