@@ -35,7 +35,7 @@ class Pages {
   static final List<PageItem> pageList = [
     PageItem(
       route: Routes.splash,
-      page: const SplashScreen(),
+      page: SplashScreen(),
       isRoot: true,
     ),
     PageItem(
