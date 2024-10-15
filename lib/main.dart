@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "Pretendard",
         colorScheme: const ColorScheme.light(
-          surface: Colors.black,
+          surface: Colors.white,
         ),
         primaryColor: const Color(0xff8000FF),
         disabledColor: const Color(0xFFD9D9D9),
