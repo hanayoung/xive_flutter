@@ -12,6 +12,8 @@ appleLogin() async {
       AppleIDAuthorizationScopes.fullName,
     ],
   );
+  print(
+      "credential ${credential.email} ${credential.givenName}  ${credential.familyName}");
   dynamic response = await UserService().appleLogin(
       credential.authorizationCode,
       credential.identityToken!,

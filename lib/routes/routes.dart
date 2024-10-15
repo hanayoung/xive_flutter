@@ -12,4 +12,5 @@ abstract class Routes {
   static const pp = '/pp';
   static const terms = '/terms';
   static const withdrawal = '/withdrawal';
+  static const webview = '/webview';
 }

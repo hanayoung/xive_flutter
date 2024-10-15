@@ -10,6 +10,7 @@ import 'package:xive/screens/setting_terms.dart';
 import 'package:xive/screens/setting_withdrawal.dart';
 import 'package:xive/screens/signup_screen.dart';
 import 'package:xive/screens/splash_screen.dart';
+import 'package:xive/screens/webview_screen.dart';
 
 part './routes.dart';
 
@@ -59,7 +60,7 @@ class Pages {
     ),
     PageItem(
       route: Routes.contact,
-      page: const SettingContactScreen(),
+      page: SettingContactScreen(),
     ),
     PageItem(
       route: Routes.pp,
@@ -72,6 +73,10 @@ class Pages {
     PageItem(
       route: Routes.withdrawal,
       page: SettingWithdrawal(),
+    ),
+    PageItem(
+      route: Routes.webview,
+      page: const WebviewScreen(),
     ),
   ];
 

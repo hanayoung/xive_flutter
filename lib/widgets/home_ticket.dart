@@ -1,20 +1,16 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:xive/controllers/ticket_controller.dart';
 import 'package:xive/models/ticket_model.dart';
-import 'package:xive/screens/webview_screen.dart';
+import 'package:xive/routes/pages.dart';
 
 class HomeTicket extends StatelessWidget {
   final List<TicketModel> ticketList;
-  const HomeTicket({super.key, required this.ticketList});
-
+  HomeTicket({super.key, required this.ticketList});
+  final TicketController controller = TicketController.to;
   onTicketClicked(BuildContext context, TicketModel ticket) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return WebviewScreen(
-          webUrl: ticket.eventWebUrl!,
-          eventId: ticket.eventId,
-          ticketId: ticket.ticketId,
-          isNewVisited: ticket.isNew);
-    }));
+    Get.toNamed(Routes.webview, arguments: ticket);
   }
 
   @override
@@ -46,24 +42,24 @@ class HomeTicket extends StatelessWidget {
                     ),
                   ),
                   onIndexChanged: (value) {
-                    // context.read<TicketProvider>().setBgImg(value);
+                    controller.setBgImg(value);
                   },
                   itemBuilder: (context, index) {
                     final ticket = ticketList[index];
                     return Card(
                       clipBehavior: Clip.none,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
+                        borderRadius: BorderRadius.circular(36.0),
                       ),
                       child: InkWell(
-                        borderRadius: BorderRadius.circular(20.0),
+                        borderRadius: BorderRadius.circular(36.0),
                         onTap: () => onTicketClicked(context, ticket),
                         child: Column(
                           children: [
                             Expanded(
                               child: Image.network(
                                 ticket.eventImageUrl!,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                               ),
                             ),
                           ],

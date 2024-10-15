@@ -55,8 +55,9 @@ class UserService {
     throw Error();
   }
 
-  Future<void> withdrawal(String accessToken, String refreshToken,
+  Future<bool> withdrawal(String accessToken, String refreshToken,
       String withdrawalOptions, String content) async {
+    print("option $withdrawalOptions  content $content");
     final response = await dio.post(
       "$baseUrl/withdrawal",
       options: Options(headers: {
@@ -64,12 +65,14 @@ class UserService {
         "RefreshToken": refreshToken,
       }),
       data: {
-        "withdrawalOptions": withdrawalOptions,
+        "withdrawalOption": withdrawalOptions,
         "content": content,
       },
     );
     if (response.statusCode == 200) {
       print("탈퇴 성공 ~");
+      return true;
     }
+    throw Error();
   }
 }
