@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
@@ -11,12 +10,6 @@ class TicketController extends GetxController {
       return Get.find();
     }
     return Get.put(TicketController());
-  }
-
-  late BuildContext _buildContext;
-
-  set buildContext(BuildContext context) {
-    _buildContext = context;
   }
 
   static const storage = FlutterSecureStorage();
@@ -43,7 +36,6 @@ class TicketController extends GetxController {
 
   setBgImg(int index) {
     _bgImgUrl.value = ticketList[index].eventBackgroundImageUrl!;
-    update();
   }
 
   @override

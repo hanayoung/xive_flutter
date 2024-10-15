@@ -23,15 +23,15 @@ class SettingScreen extends StatelessWidget {
         controller.accessToken.value, controller.refreshToken.value);
     dynamic loginType = userData['loginType'];
     dynamic name = userData['nickname'];
-
     await storage.write(key: 'login_type', value: loginType);
     // await storage.write(key: 'email', value: email);
   }
 
   Future<void> _loadLoginData() async {
     // null이면 서버요청
-    if (controller.email.value == null || controller.loginType.value == null)
+    if (controller.email.value == null || controller.loginType.value == null) {
       _getUserData();
+    }
   }
 
   Future<PackageInfo> _loadPackageInfo() async {

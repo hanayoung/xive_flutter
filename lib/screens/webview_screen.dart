@@ -2,24 +2,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 // Import for Android features.
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 // Import for iOS/macOS features.
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:xive/controllers/splash_controller.dart';
+import 'package:xive/models/ticket_model.dart';
 import 'package:xive/widgets/title_bar.dart';
 
 class WebviewScreen extends StatefulWidget {
-  final String webUrl;
-  final int eventId, ticketId;
-  final bool isNewVisited;
-  const WebviewScreen({
-    super.key,
-    required this.webUrl,
-    required this.eventId,
-    required this.ticketId,
-    required this.isNewVisited,
-  });
+  const WebviewScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _WebviewScreen();
@@ -27,16 +21,16 @@ class WebviewScreen extends StatefulWidget {
 
 class _WebviewScreen extends State<WebviewScreen> {
   late final WebViewController controller;
-  dynamic accessToken = '';
-  dynamic refreshToken = '';
   static const storage = FlutterSecureStorage();
   bool _isControllerIntialized = false;
   late WebViewWidget webViewWidget;
+  final TicketModel ticket = Get.arguments;
+  final SplashController viewModel = SplashController.to;
 
-  _asyncMethod() async {
-    accessToken = await storage.read(key: 'access_token');
-    refreshToken = await storage.read(key: 'refresh_token');
-  }
+  // _asyncMethod() async {
+  //   accessToken = await storage.read(key: 'access_token');
+  //   refreshToken = await storage.read(key: 'refresh_token');
+  // }
 
   @override
   void initState() {
@@ -45,7 +39,7 @@ class _WebviewScreen extends State<WebviewScreen> {
   }
 
   Future<void> _initializedWebView() async {
-    await _asyncMethod();
+    // await _asyncMethod();
 
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -53,12 +47,12 @@ class _WebviewScreen extends State<WebviewScreen> {
         NavigationDelegate(
           onPageFinished: (value) => {
             controller.runJavaScript(
-                "javascript:initWeb('$accessToken','$refreshToken',${widget.eventId}, ${widget.ticketId}, ${widget.isNewVisited})")
+                "javascript:initWeb('${viewModel.accessToken.value}','${viewModel.refreshToken.value}',${ticket.eventId}, ${ticket.ticketId}, ${ticket.isNew})")
           },
         ),
       )
       ..loadRequest(
-        Uri.parse(widget.webUrl),
+        Uri.parse(ticket.eventWebUrl!),
       );
 
     PlatformWebViewWidgetCreationParams params =
