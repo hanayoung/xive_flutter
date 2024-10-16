@@ -1,12 +1,25 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:xive/controllers/audio_controller.dart';
 import 'package:intl/intl.dart';
+// import 'package:rxdart/rxdart.dart';
+import 'package:audio_session/audio_session.dart';
 
+import 'package:flutter/services.dart';
+
+
+
+class DurationState {
+   DurationState( this.progress,  this.buffered,  this.total);
+   Duration progress;
+   Duration buffered;
+   Duration total;
+}
 
 class AudioPlayController extends GetxController{
 
@@ -26,10 +39,10 @@ class AudioPlayController extends GetxController{
   RxBool isPlay = false.obs;
   RxBool isSubtitle = false.obs;
 
-  Rx<String> audioImageUrl = "".obs;
-  Rx<String> audioSoundUrl = "".obs;
-  Rx<String> audioName = "".obs;
-  Rx<String> audioArtist = "".obs;
+  RxString audioImageUrl = "".obs;
+  RxString audioSoundUrl = "".obs;
+  RxString audioName = "".obs;
+  RxString audioArtist = "".obs;
   var audioDescription = [].obs;
 
   final player = AudioPlayer();
@@ -37,16 +50,18 @@ class AudioPlayController extends GetxController{
 
   var speedValue = 1.0.obs;
 
-  // player.play();                                  // Play without waiting for completion
-  // await player.play();                            // Play while waiting for completion
-  // await player.pause();                           // Pause but remain ready to play
-  // await player.seek(Duration(second: 10));        // Jump to the 10 second position
-  // await player.setSpeed(2.0);                     // Twice as fast
-  // await player.setVolume(0.5);                    // Half as loud
-  // await player.stop();
+  DurationState? _durationState;
+
+  // Stream<DurationState> get _positionDataStream =>
+  // Rx.combineLatest3<Duration, Duration, Duration?, DurationState>(
+  //         player.positionStream,
+  //         player.bufferedPositionStream,
+  //         player.durationStream,
+  //             (position, bufferedPosition, duration) => DurationState(
+  //             position, bufferedPosition, duration ?? Duration.zero));
 
 
-  Future<void> updatePlay(index) async{
+  Future<void> updatePlay(index) async {
 
     audioImageUrl.value = AudioController.to.playList[index]["audioImageUrl"];
     audioName.value = AudioController.to.playList[index]["audioName"];
@@ -58,6 +73,7 @@ class AudioPlayController extends GetxController{
     // await player.play();
     isPlay.value = false;
     isSubtitle.value = false;
+
   }
 
   updateIsPlay(){
@@ -147,7 +163,7 @@ class AudioPlayController extends GetxController{
                       onTap: (){
                         updateIsPlay();
                       },
-                      child: AudioPlayController.to.isPlay.value ? Image.asset("assets/images/stop_light.png", width: 32, height: 32, fit: BoxFit.fitHeight):Image.asset("assets/images/play_vector.png", width: 32, height: 32, fit: BoxFit.fitHeight,),
+                      child: AudioPlayController.to.isPlay.value ? Image.asset("assets/images/stop_light.png", width: 32, height: 32, fit: BoxFit.fitHeight):SvgPicture.asset("assets/images/play_light.svg", width: 32, height: 32, fit: BoxFit.fitHeight,),
                     ),
                     InkWell(
                       onTap: () {
@@ -221,7 +237,8 @@ class AudioPlayController extends GetxController{
               children: [
                 InkWell(
                   onTap: (){
-
+                    // player.seek(progressDuration.value-Duration(seconds: 10));
+                    update();
                   }, child: Image.asset("assets/images/10_seconds_before.png", width: 32, height: 32, fit: BoxFit.fitHeight,)
                 ),
                 Row(
@@ -235,7 +252,7 @@ class AudioPlayController extends GetxController{
                           onTap: (){
                             updateIsPlay();
                           },child: isPlay.value? Image.asset("assets/images/stop_light.png", width: 54, height: 54, fit: BoxFit.fitHeight,)
-                        :Image.asset("assets/images/play_vector.png", width: 54, height: 54, fit: BoxFit.fitHeight,)
+                        :SvgPicture.asset("assets/images/play_light.svg", width: 54, height: 54, fit: BoxFit.fitHeight,)
                       ),
                     ),
                     InkWell(onTap:() {
@@ -246,7 +263,8 @@ class AudioPlayController extends GetxController{
                 ),
                 InkWell(
                     onTap: () {
-
+                      // player.seek(progressDuration.value+Duration(seconds: 10));
+                      update();
                     },child: Image.asset("assets/images/10_seconds_after.png", width: 32, height: 32, fit: BoxFit.fitHeight,)
                 )
               ],
@@ -418,7 +436,8 @@ class AudioPlayController extends GetxController{
     );
   }
 
-  Widget musicProgressBar(){
+
+  musicProgressBar(){
     return ProgressBar(
       progress: Duration(milliseconds: 1000),
       buffered: Duration(milliseconds: 2000),
@@ -433,7 +452,31 @@ class AudioPlayController extends GetxController{
 
       },
     );
+    // return StreamBuilder<DurationState>(
+    //   stream: _positionDataStream,
+    //     builder: (context, snapshot) {
+    //       final positionData = snapshot.data;
+    //       Duration remaining = (positionData?.total != null &&
+    //           positionData?.progress != null)
+    //           ? positionData!.total - positionData.progress
+    //           : Duration.zero;
+    //       return  ProgressBar(
+    //         progress: positionData?.progress ?? Duration.zero,
+    //         buffered: positionData?.buffered ?? Duration.zero,
+    //         total: positionData?.total ?? Duration.zero,
+    //         progressBarColor: Colors.white,
+    //         baseBarColor: Colors.white.withOpacity(0.24),
+    //         bufferedBarColor: Colors.white.withOpacity(0.24),
+    //         thumbColor: Colors.white,
+    //         barHeight: 3.0,
+    //         thumbRadius: 0.0,
+    //         // onDragEnd: player.seek()
+    //       );
+    //     },
+    //
+    // );
   }
+
 
   @override
   void onInit() {
