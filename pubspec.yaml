@@ -69,6 +69,8 @@ dependencies:
   just_audio: ^0.9.41
   audio_video_progress_bar: ^2.0.3
   syncfusion_flutter_sliders: ^27.1.53
+  rxdart: ^0.28.0
+  audio_session: ^0.1.21
 
 
 
