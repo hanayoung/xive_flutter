@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xive/screens/audio_screen.dart';
+import 'package:xive/screens/error_screen.dart';
 import 'package:xive/screens/home_screen.dart';
 import 'package:xive/screens/on_boarding_screen.dart';
 import 'package:xive/screens/setting_contact_screen.dart';
@@ -77,6 +78,10 @@ class Pages {
     PageItem(
       route: Routes.webview,
       page: const WebviewScreen(),
+    ),
+    PageItem(
+      route: Routes.error,
+      page: const ErrorScreen(),
     ),
   ];
 
