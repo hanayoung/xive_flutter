@@ -41,4 +41,23 @@ class TicketService {
     throw Error();
     // todo 에러 처리 추가해서 에러 화면으로 이동해야함
   }
+
+  Future<TicketModel> postTicket(
+      String accessToken, String refreshToken, int eventId) async {
+    TicketModel ticketInstance;
+    final response = await dio.post("$baseUrl/exhibition-tickets",
+        options: Options(headers: {
+          "AccessToken": accessToken,
+          "RefreshToken": refreshToken,
+        }),
+        data: {
+          "eventId": eventId,
+        });
+    if (response.statusCode == 200) {
+      ticketInstance = TicketModel.fromJson(response.data);
+      return ticketInstance;
+    }
+    throw Error();
+    // todo 에러 처리 추가해서 에러 화면으로 이동해야함
+  }
 }

@@ -71,8 +71,6 @@ dependencies:
   syncfusion_flutter_sliders: ^27.1.53
 
 
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
