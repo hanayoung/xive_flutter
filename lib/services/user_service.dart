@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:xive/models/user_login_model.dart';
@@ -44,15 +46,23 @@ class UserService {
 
   Future<Map<String, dynamic>> getUserData(
       String? accessToken, String? refreshToken) async {
-    final response = await dio.get("$baseUrl/members",
-        options: Options(headers: {
-          "AccessToken": accessToken,
-          "RefreshToken": refreshToken,
-        }));
-    if (response.statusCode == 200) {
-      return response.data;
+    try {
+      final response = await dio.get("$baseUrl/members",
+          options: Options(headers: {
+            "AccessToken": accessToken,
+            "RefreshToken": refreshToken,
+          }));
+      if (response.statusCode == 200) {
+        print("response ${response.data}");
+        return response.data;
+      } else {
+        return throw Exception(
+            '오류 발생: ${response.statusCode} - ${response.statusMessage}');
+      }
+    } on DioException catch (e) {
+      print(e.toString());
+      throw Exception();
     }
-    throw Error();
   }
 
   Future<bool> withdrawal(String accessToken, String refreshToken,

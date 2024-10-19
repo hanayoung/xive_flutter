@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:xive/controllers/splash_controller.dart';
 import 'package:xive/routes/pages.dart';
 import 'package:xive/services/user_service.dart';
+import 'package:xive/utils/apple_login.dart';
 import 'package:xive/widgets/custom_check_box.dart';
 import 'package:xive/widgets/title_bar.dart';
 
@@ -69,9 +70,14 @@ class SettingWithdrawal extends StatelessWidget {
     bool result = await UserService().withdrawal(
         viewModel.accessToken.value!,
         viewModel.refreshToken.value!,
-        "OPTION${(controller.selectedIdx.value) + 1}",
+        controller.selectedIdx.value < 5
+            ? "OPTION${(controller.selectedIdx.value) + 1}"
+            : "OTHER_OPTION",
         content!);
     if (result) {
+      if (viewModel.loginType.value == "APPLE") {
+        await revokeSignInWithApple();
+      }
       await storage.deleteAll();
       Get.offAllNamed(Routes.signUp);
     }

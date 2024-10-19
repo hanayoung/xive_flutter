@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:xive/controllers/splash_controller.dart';
 import 'package:xive/services/user_service.dart';
+import 'package:xive/utils/apple_login.dart';
 import 'package:xive/widgets/setting_dialog.dart';
 import 'package:xive/widgets/setting_divider.dart';
 import 'package:xive/widgets/title_bar.dart';
@@ -24,12 +25,14 @@ class SettingScreen extends StatelessWidget {
     dynamic loginType = userData['loginType'];
     dynamic name = userData['nickname'];
     await storage.write(key: 'login_type', value: loginType);
+    print("loginType $loginType name $name");
     // await storage.write(key: 'email', value: email);
   }
 
   Future<void> _loadLoginData() async {
     // null이면 서버요청
     if (controller.email.value == null || controller.loginType.value == null) {
+      print("email and logintype null");
       _getUserData();
     }
   }
@@ -39,6 +42,9 @@ class SettingScreen extends StatelessWidget {
   }
 
   logout(BuildContext context) async {
+    if (controller.loginType.value == "APPLE") {
+      await revokeSignInWithApple();
+    }
     Navigator.pop(context);
     await storage.deleteAll();
     Get.toNamed(Routes.signUp);

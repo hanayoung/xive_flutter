@@ -9,7 +9,7 @@ class TicketService {
 
   Future<List<TicketModel>> getAllTickets(
       String accessToken, String refreshToken) async {
-    List<TicketModel> ticketInstances;
+    // List<TicketModel> ticketInstances;
 
     final response = await dio.get("$baseUrl/tickets",
         options: Options(headers: {

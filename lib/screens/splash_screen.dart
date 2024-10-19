@@ -25,9 +25,9 @@ class SplashScreen extends StatelessWidget {
             } else {
               if (controller.accessToken.value != null &&
                   controller.refreshToken.value != null) {
-                Future.microtask(() => Get.toNamed(Routes.home));
+                Future.microtask(() => Get.offAndToNamed(Routes.home));
               } else {
-                Future.microtask(() => Get.toNamed(Routes.signUp));
+                Future.microtask(() => Get.offAndToNamed(Routes.signUp));
               }
               return const SizedBox.shrink();
             }

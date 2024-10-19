@@ -26,7 +26,9 @@ class CustomCheckBox extends StatelessWidget {
         value: isMain
             ? controller.isChecked.value
             : controller.selectedIdx.value == idx,
-        onChanged: (bool? value) {},
+        onChanged: (bool? value) {
+          controller.toggleCheckbox();
+        },
         activeColor: Colors.black,
         checkColor: Colors.white,
         shape: RoundedRectangleBorder(

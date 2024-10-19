@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:app_settings/app_settings.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -26,12 +27,12 @@ class TicketController extends GetxController {
 
   static const storage = FlutterSecureStorage();
 
-  Rx<bool> hasTicket = false.obs;
+  // Rx<bool> hasTicket = false.obs;
 
-  List<TicketModel> ticketList = [];
+  List<TicketModel> ticketList = <TicketModel>[].obs;
 
-  final Rx<String> _bgImgUrl = "".obs;
-  String get bgImgUrl => _bgImgUrl.value;
+  final Rx<String> bgImgUrl = "".obs;
+  // String get bgImgUrl => _bgImgUrl.value;
 
   late BuildContext _buildContext;
 
@@ -42,20 +43,46 @@ class TicketController extends GetxController {
   }
 
   Future<void> _setTicketList() async {
-    final accessToken = await storage.read(key: 'access_token');
-    final refreshToken = await storage.read(key: 'refresh_token');
+    final accessToken = viewModel.accessToken.value;
+    final refreshToken = viewModel.refreshToken.value;
     if (accessToken != null && refreshToken != null) {
-      ticketList =
+      List<TicketModel> apiTicketList =
           await TicketService().getAllTickets(accessToken, refreshToken);
-      if (ticketList.isNotEmpty) {
-        hasTicket.value = true;
-        _bgImgUrl.value = ticketList[0].eventBackgroundImageUrl!;
+      if (apiTicketList.isNotEmpty) {
+        bgImgUrl.value = apiTicketList[0].eventBackgroundImageUrl!;
+        ticketList.assignAll(apiTicketList);
+        setBgImg(0);
       }
     }
   }
 
   setBgImg(int index) {
-    _bgImgUrl.value = ticketList[index].eventBackgroundImageUrl!;
+    print("setBgImg index $index");
+    bgImgUrl.value = ticketList[index].eventBackgroundImageUrl!;
+  }
+
+  Future<TicketModel?> addTicket(int eventId) async {
+    final accessToken = viewModel.accessToken.value;
+    final refreshToken = viewModel.refreshToken.value;
+    TicketModel? ticketInstance;
+    if (accessToken != null && refreshToken != null) {
+      ticketInstance = await TicketService().postTicket(
+          viewModel.accessToken.value!, viewModel.refreshToken.value!, eventId);
+      print("ticketInstance $ticketInstance");
+      if (ticketInstance.isNew) {
+        ticketList.add(ticketInstance);
+        update();
+        print("ticketList add");
+        print("ticketList add ? ${ticketList.length}");
+        bgImgUrl.value = ticketList[0].eventBackgroundImageUrl!;
+      } else {
+        ScaffoldMessenger.of(_buildContext).showSnackBar(const SnackBar(
+          content: Text('이미 등록된 티켓입니다'),
+          duration: Duration(seconds: 5),
+        ));
+      }
+    }
+    return ticketInstance;
   }
 
   Future<void> readNfc() async {
@@ -84,19 +111,15 @@ class TicketController extends GetxController {
       },
       onDiscovered: (NfcTag tag) async {
         String id = getNfcId(tag);
-        String? decodedNfcMessage = getDecodedNfcMessage(tag);
-        if (decodedNfcMessage != null) {
+        String? decodedNfcMsg = getDecodedNfcMsg(tag);
+        if (decodedNfcMsg != null) {
+          print("decodeNFCMsg $decodedNfcMsg");
           EventModel data = await EventService().getEventData(
               viewModel.accessToken.value!,
               viewModel.refreshToken.value!,
-              decodedNfcMessage);
-          TicketModel ticketInstance = await TicketService().postTicket(
-              viewModel.accessToken.value!,
-              viewModel.refreshToken.value!,
-              data.eventId);
-          if (ticketInstance.isNew) {
-            ticketList.add(ticketInstance);
-          }
+              decodedNfcMsg);
+          print("event data $data");
+          await addTicket(data.eventId);
         }
         if (Platform.isIOS) {
           NfcManager.instance.stopSession(alertMessage: "NFC_SCAN_SUCCESS");
@@ -121,12 +144,13 @@ class TicketController extends GetxController {
     }
   }
 
-  String? getDecodedNfcMessage(NfcTag tag) {
+  String? getDecodedNfcMsg(NfcTag tag) {
     Ndef? ndef = Ndef.from(tag);
     NdefMessage? nfcMessage = ndef?.cachedMessage;
     NdefRecord? urlData = nfcMessage?.records.firstOrNull;
     if (urlData != null) {
       Uint8List uint8ListData = Uint8List.fromList(urlData.payload);
+      print("getDecodedMsg $uint8ListData");
       return utf8.decode(uint8ListData.sublist(3));
     } else {
       return null;

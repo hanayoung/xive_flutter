@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xive/screens/audio_screen.dart';
+import 'package:xive/screens/calendar_screen.dart';
 import 'package:xive/screens/error_screen.dart';
 import 'package:xive/screens/home_screen.dart';
 import 'package:xive/screens/on_boarding_screen.dart';
@@ -49,7 +50,7 @@ class Pages {
     ),
     PageItem(
       route: Routes.home,
-      page: const HomeScreen(),
+      page: HomeScreen(),
     ),
     PageItem(
       route: Routes.setting,
@@ -82,6 +83,10 @@ class Pages {
     PageItem(
       route: Routes.error,
       page: const ErrorScreen(),
+    ),
+    PageItem(
+      route: Routes.calendar,
+      page: const CalendarScreen(),
     ),
   ];
 
