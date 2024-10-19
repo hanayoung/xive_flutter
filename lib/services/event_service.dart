@@ -10,7 +10,7 @@ class EventService {
       String accessToken, String refreshToken, String eventToken) async {
     EventModel eventInstance;
 
-    final response = await dio.get("$baseUrl/tickets",
+    final response = await dio.get("$baseUrl/event/tagging",
         options: Options(headers: {
           "AccessToken": accessToken,
           "RefreshToken": refreshToken,

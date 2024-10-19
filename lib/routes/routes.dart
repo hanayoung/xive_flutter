@@ -14,4 +14,5 @@ abstract class Routes {
   static const withdrawal = '/withdrawal';
   static const webview = '/webview';
   static const error = '/error';
+  static const calendar = '/calendar';
 }

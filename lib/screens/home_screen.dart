@@ -7,11 +7,10 @@ import 'package:xive/widgets/home_ticket.dart';
 import '../routes/pages.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
+  HomeScreen({super.key});
+  final TicketController controller = TicketController.to;
   @override
   Widget build(BuildContext context) {
-    final TicketController controller = TicketController.to;
     controller.buildContext = context;
 
     return Scaffold(
@@ -41,7 +40,7 @@ class HomeScreen extends StatelessWidget {
                     'assets/images/home_xive_icon.svg',
                   ),
                   InkWell(
-                    onTap: () => Get.toNamed(Routes.error),
+                    onTap: () => Get.toNamed(Routes.calendar),
                     child: SvgPicture.asset(
                       'assets/images/home_calendar_icon.svg',
                     ),
@@ -50,18 +49,19 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             Obx(() {
-              return TicketController.to.hasTicket.value
+              return controller.ticketList.isNotEmpty
                   ? Expanded(
                       child: Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(TicketController.to.bgImgUrl),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          child: HomeTicket(
-                              ticketList: TicketController.to.ticketList)),
-                    )
+                      decoration: controller.bgImgUrl.value.isNotEmpty
+                          ? BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(controller.bgImgUrl.value),
+                                fit: BoxFit.fill,
+                              ),
+                            )
+                          : null,
+                      child: HomeTicket(),
+                    ))
                   : Expanded(
                       child: Container(
                         decoration: const BoxDecoration(
