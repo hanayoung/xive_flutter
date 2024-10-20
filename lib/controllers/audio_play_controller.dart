@@ -569,16 +569,19 @@ class AudioPlayController extends GetxController{
     update();
   }
 
-  @override
-  void close() {
-    // TODO: implement dispose
-    player.stop();
-  }
+
 
   @override
   void dispose() {
     // TODO: implement dispose
     player.dispose();
     super.dispose();
+  }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    player.dispose();
+    super.onClose();
   }
 }
