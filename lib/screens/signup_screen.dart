@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:xive/widgets/long_icon_btn.dart';
 
 class SignupScreen extends StatelessWidget {
@@ -10,16 +11,22 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Get.isDarkMode ? Colors.black : Colors.white,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Flexible(
               flex: 4,
-              child: Center(
-                child: SvgPicture.asset(
-                  "assets/images/login_logo.svg",
+              child: Container(
+                child: Center(
+                  child: Get.isDarkMode
+                      ? SvgPicture.asset(
+                          "assets/images/login_logo_dark.svg",
+                        )
+                      : SvgPicture.asset(
+                          "assets/images/login_logo_light.svg",
+                        ),
                 ),
               ),
             ),
