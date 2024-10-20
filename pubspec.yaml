@@ -71,6 +71,7 @@ dependencies:
   syncfusion_flutter_sliders: ^27.1.53
   rxdart: ^0.28.0
   audio_session: ^0.1.21
+  scroll_to_index: ^3.0.1
 
 
 
