@@ -177,14 +177,14 @@ class AudioPlayController extends GetxController{
 
   //다음 곡
   nextPlayList() async{
-    if(checkPlayIsEnd()){
-      endPlayer();
-    }
-    AudioController.to.playIndex.value += 1;
-    await updatePlay(AudioController.to.playIndex.value);
+    if(!checkPlayIsEnd()) {
+      AudioController.to.playIndex.value += 1;
+      await updatePlay(AudioController.to.playIndex.value);
 
-    AudioController.to.update();
-    update();
+      AudioController.to.update();
+      update();
+    }
+
   }
 
   //이전 곡
@@ -196,6 +196,8 @@ class AudioPlayController extends GetxController{
 
       AudioController.to.update();
       update();
+    }else{
+      player.seek(Duration(seconds: 0));
     }
   }
 
