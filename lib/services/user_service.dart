@@ -25,7 +25,7 @@ class UserService {
   }
 
   Future<UserLoginModel> appleLogin(
-      String code, String idToken, String email, String name) async {
+      String code, String idToken, String? email, String? name) async {
     UserLoginModel userLoginInstance;
     final response = await dio.post(
       "$baseUrl/apple-login",

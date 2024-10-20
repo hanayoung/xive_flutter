@@ -23,8 +23,10 @@ appleLogin() async {
   dynamic response = await UserService().appleLogin(
       credential.authorizationCode,
       credential.identityToken!,
-      credential.email!,
-      "${credential.givenName} ${credential.familyName}");
+      credential.email,
+      credential.givenName == null
+          ? null
+          : "${credential.givenName} ${credential.familyName}");
 
   List<Map<String, String?>> data = [
     {'access_token': (response as UserLoginModel).accessToken},

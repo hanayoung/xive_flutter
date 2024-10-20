@@ -12,7 +12,7 @@ import 'package:nfc_manager/platform_tags.dart';
 import 'package:xive/controllers/splash_controller.dart';
 import 'package:xive/models/event_model.dart';
 import 'package:xive/services/event_service.dart';
-import 'package:xive/utils/bottom_sheet_modal.dart';
+import 'package:xive/widgets/bottom_sheet_modal.dart';
 
 import '../models/ticket_model.dart';
 import '../services/ticket_service.dart';
@@ -27,12 +27,9 @@ class TicketController extends GetxController {
 
   static const storage = FlutterSecureStorage();
 
-  // Rx<bool> hasTicket = false.obs;
-
   List<TicketModel> ticketList = <TicketModel>[].obs;
 
   final Rx<String> bgImgUrl = "".obs;
-  // String get bgImgUrl => _bgImgUrl.value;
 
   late BuildContext _buildContext;
 
