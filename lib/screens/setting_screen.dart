@@ -42,9 +42,9 @@ class SettingScreen extends StatelessWidget {
   }
 
   logout(BuildContext context) async {
-    if (controller.loginType.value == "APPLE") {
-      await revokeSignInWithApple();
-    }
+    // if (controller.loginType.value == "APPLE") {
+    //   await revokeSignInWithApple();
+    // }
     Navigator.pop(context);
     await storage.deleteAll();
     Get.toNamed(Routes.signUp);
