@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:xive/utils/apple_login.dart';
 import 'package:xive/utils/kakao_login.dart';
 
@@ -55,7 +56,7 @@ class LongIconBtn extends StatelessWidget {
                       children: [
                         Text(
                           text,
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: TextStyle(color: Get.isDarkMode? Colors.white:Colors.black, fontSize: 16, letterSpacing: -0.02,) ,
                         ),
                       ],
                     ),

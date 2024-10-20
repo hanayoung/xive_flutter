@@ -19,7 +19,9 @@ class SettingScreen extends StatelessWidget {
   static const storage = FlutterSecureStorage();
   final SplashController controller = SplashController.to;
 
-  void _getUserData() async {
+  Future<void> _getUserData() async {
+    print(
+        "getUserData accesToken ${controller.accessToken.value} refreshToken ${controller.refreshToken.value}");
     Map<String, dynamic>? userData = await UserService().getUserData(
         controller.accessToken.value, controller.refreshToken.value);
     dynamic loginType = userData['loginType'];
@@ -42,9 +44,6 @@ class SettingScreen extends StatelessWidget {
   }
 
   logout(BuildContext context) async {
-    // if (controller.loginType.value == "APPLE") {
-    //   await revokeSignInWithApple();
-    // }
     Navigator.pop(context);
     await storage.deleteAll();
     Get.toNamed(Routes.signUp);
