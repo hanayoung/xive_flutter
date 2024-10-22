@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:xive/controllers/splash_controller.dart';
+import 'package:xive/main.dart';
+import 'package:xive/models/schedule_model.dart';
+import 'package:xive/services/schedule_service.dart';
 import 'package:xive/widgets/title_bar.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -14,6 +20,21 @@ class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _selectedDay = DateTime.now();
   final DateTime _now = DateTime.now();
   late PageController _pageController;
+  late List<ScheduleModel> list;
+  final SplashController controller = SplashController.to;
+
+  Future<List<ScheduleModel>> getScheduleList() async {
+    return ScheduleService().getScheduleList("2024-09",
+        controller.accessToken.value!, controller.refreshToken.value!);
+  }
+
+  @override
+  void initState() {
+    getScheduleList().then((value) {
+      list = value;
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +77,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             },
             calendarStyle: CalendarStyle(
               selectedDecoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
+                color: lightModeTheme.primaryColor,
                 shape: BoxShape.circle,
               ),
             ),
@@ -83,6 +104,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     ),
                   );
                 }
+              },
+              dowBuilder: (context, day) {
+                final text = DateFormat('E', 'ko').format(day);
+                return Center(
+                  child: Text(
+                    text,
+                    style: TextStyle(
+                        color: day.weekday == _selectedDay.weekday
+                            ? lightModeTheme.primaryColor
+                            : Colors.black),
+                  ),
+                );
               },
             ),
           )
@@ -112,14 +145,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 icon: const Icon(Icons.chevron_left),
                 onPressed: _previousMonth,
               ),
-              _focusedDay.isAfter(DateTime(_now.year, _now.month + 1, 0))
+              _focusedDay.isBefore(DateTime(_now.year, _now.month, 0))
                   ? IconButton(
-                      icon: const Icon(Icons.chevron_right),
+                      icon: SvgPicture.asset(
+                          'assets/images/calendar_right_arrow_on.svg'),
                       onPressed: _nextMonth,
                     )
                   : IconButton(
-                      icon: const Icon(Icons.chevron_right),
-                      onPressed: _nextMonth,
+                      icon: SvgPicture.asset(
+                          'assets/images/calendar_right_arrow_off.svg'),
+                      onPressed: null,
                     ),
             ],
           )

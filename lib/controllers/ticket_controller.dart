@@ -29,7 +29,7 @@ class TicketController extends GetxController {
 
   List<TicketModel> ticketList = <TicketModel>[].obs;
 
-  final Rx<String> bgImgUrl = "".obs;
+  Rx<String> bgImgUrl = "".obs;
 
   late BuildContext _buildContext;
 

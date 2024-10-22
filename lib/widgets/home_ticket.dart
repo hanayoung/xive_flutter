@@ -2,6 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xive/controllers/ticket_controller.dart';
+import 'package:xive/main.dart';
 import 'package:xive/models/ticket_model.dart';
 import 'package:xive/routes/pages.dart';
 
@@ -23,7 +24,7 @@ class HomeTicket extends StatelessWidget {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Spacer(flex: 1),
+            const Spacer(flex: 2),
             SizedBox(
               width: cardWidth,
               child: AspectRatio(
@@ -39,8 +40,8 @@ class HomeTicket extends StatelessWidget {
                         builder: DotSwiperPaginationBuilder(
                           activeSize: 10.0,
                           space: 5.0,
-                          activeColor: Theme.of(context).primaryColor,
-                          color: Theme.of(context).disabledColor,
+                          activeColor: lightModeTheme.primaryColor,
+                          color: lightModeTheme.disabledColor,
                         ),
                       ),
                       onIndexChanged: (value) {

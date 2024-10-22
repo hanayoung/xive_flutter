@@ -4,6 +4,11 @@ class ScheduleModel {
 
   ScheduleModel.fromJson(Map<String, dynamic> json)
       : eventDay = json['eventDay'],
-        ticketId = json['ticketId'],
+        ticketId = List<int>.from(json['ticketId']),
         eventImageUrl = json['eventImageUrl'];
+
+  @override
+  String toString() {
+    return 'ScheduleModel(eventDay: $eventDay, eventImageUrl: $eventImageUrl, ticketId: $ticketId)';
+  }
 }
