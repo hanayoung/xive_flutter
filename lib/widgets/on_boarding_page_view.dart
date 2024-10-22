@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gif/gif.dart';
+import 'package:xive/main.dart';
 
 class OnBoardingPageView extends StatelessWidget {
   final String title, content, imgPath;
@@ -27,7 +28,7 @@ class OnBoardingPageView extends StatelessWidget {
         children: [
           Text(
             title,
-            style: Theme.of(context).textTheme.titleMedium,
+            style: lightModeTheme.textTheme.titleMedium,
           ),
           Text(
             content,

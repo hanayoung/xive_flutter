@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xive/screens/audio_screen.dart';
+import 'package:xive/screens/calendar_screen.dart';
+import 'package:xive/screens/error_screen.dart';
 import 'package:xive/screens/home_screen.dart';
 import 'package:xive/screens/on_boarding_screen.dart';
 import 'package:xive/screens/setting_contact_screen.dart';
@@ -10,6 +12,7 @@ import 'package:xive/screens/setting_terms.dart';
 import 'package:xive/screens/setting_withdrawal.dart';
 import 'package:xive/screens/signup_screen.dart';
 import 'package:xive/screens/splash_screen.dart';
+import 'package:xive/screens/webview_screen.dart';
 
 part './routes.dart';
 
@@ -34,7 +37,7 @@ class Pages {
   static final List<PageItem> pageList = [
     PageItem(
       route: Routes.splash,
-      page: const SplashScreen(),
+      page: SplashScreen(),
       isRoot: true,
     ),
     PageItem(
@@ -47,7 +50,7 @@ class Pages {
     ),
     PageItem(
       route: Routes.home,
-      page: const HomeScreen(),
+      page: HomeScreen(),
     ),
     PageItem(
       route: Routes.setting,
@@ -59,7 +62,7 @@ class Pages {
     ),
     PageItem(
       route: Routes.contact,
-      page: const SettingContactScreen(),
+      page: SettingContactScreen(),
     ),
     PageItem(
       route: Routes.pp,
@@ -71,7 +74,19 @@ class Pages {
     ),
     PageItem(
       route: Routes.withdrawal,
-      page: const SettingWithdrawal(),
+      page: SettingWithdrawal(),
+    ),
+    PageItem(
+      route: Routes.webview,
+      page: const WebviewScreen(),
+    ),
+    PageItem(
+      route: Routes.error,
+      page: const ErrorScreen(),
+    ),
+    PageItem(
+      route: Routes.calendar,
+      page: const CalendarScreen(),
     ),
   ];
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xive/main.dart';
 
 class Paragraph extends StatelessWidget {
   final String title, content;
@@ -17,7 +18,7 @@ class Paragraph extends StatelessWidget {
         children: [
           Text(
             title,
-            style: Theme.of(context).textTheme.titleSmall,
+            style: lightModeTheme.textTheme.titleSmall,
           ),
           const SizedBox(
             height: 16,

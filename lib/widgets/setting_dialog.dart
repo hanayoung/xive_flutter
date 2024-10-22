@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xive/main.dart';
 
 class SettingDialog extends StatelessWidget {
   final Function func;
@@ -31,7 +32,7 @@ class SettingDialog extends StatelessWidget {
               ),
             ),
             Text('언제나 여기서 기다리고 있을게요 😢',
-                style: Theme.of(context).textTheme.bodySmall),
+                style: lightModeTheme.textTheme.bodySmall),
             Row(
               children: [
                 Expanded(
@@ -45,7 +46,7 @@ class SettingDialog extends StatelessWidget {
                       onPressed: () => func(context),
                       child: Text(
                         '떠나기',
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: lightModeTheme.textTheme.bodyMedium,
                       )),
                 ),
                 const SizedBox(
@@ -57,7 +58,7 @@ class SettingDialog extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      backgroundColor: Theme.of(context).primaryColor,
+                      backgroundColor: lightModeTheme.primaryColor,
                     ),
                     onPressed: () {
                       Navigator.pop(context);
