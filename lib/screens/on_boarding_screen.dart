@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:xive/main.dart';
 import 'package:xive/widgets/on_boarding_page_view.dart';
 import 'package:xive/widgets/page_view_long_button.dart';
 
@@ -102,8 +103,8 @@ class _OnBoardingSceenState extends State<OnBoardingScreen> {
               controller: controller, // PageController
               count: 3,
               effect: ExpandingDotsEffect(
-                activeDotColor: Theme.of(context).primaryColor,
-                dotColor: Theme.of(context).disabledColor,
+                activeDotColor: lightModeTheme.primaryColor,
+                dotColor: lightModeTheme.disabledColor,
                 radius: 4,
                 dotHeight: 8,
                 dotWidth: 8,
@@ -117,7 +118,7 @@ class _OnBoardingSceenState extends State<OnBoardingScreen> {
                 ? PageViewLongButton(
                     controller: controller,
                     currentPage: currentPage,
-                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: lightModeTheme.primaryColor,
                     text: "시작하기",
                   )
                 : PageViewLongButton(

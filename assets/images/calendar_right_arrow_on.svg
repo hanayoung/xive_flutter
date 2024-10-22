@@ -1,0 +1,7 @@
+<svg width="33" height="29" viewBox="0 0 33 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="arrow">
+<rect x="-0.25" y="0.25" width="32.5" height="28.5" rx="2.75" transform="matrix(-1 0 0 1 32.5 0)" fill="white"/>
+<rect x="-0.25" y="0.25" width="32.5" height="28.5" rx="2.75" transform="matrix(-1 0 0 1 32.5 0)" stroke="#DFDFDF" stroke-width="0.5"/>
+<path id="Vector 9" d="M13 9L19 15L13 21" stroke="black"/>
+</g>
+</svg>

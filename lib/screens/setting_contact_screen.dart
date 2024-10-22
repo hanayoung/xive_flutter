@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xive/controllers/splash_controller.dart';
+import 'package:xive/main.dart';
 import 'package:xive/services/contact_service.dart';
 import 'package:xive/widgets/title_bar.dart';
 
@@ -62,16 +63,14 @@ class SettingContactScreen extends StatelessWidget {
                                     ),
                                     Text(
                                       '답변받으실 이메일',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleSmall,
+                                      style:
+                                          lightModeTheme.textTheme.titleSmall,
                                     ),
                                     const SizedBox(
                                       height: 8,
                                     ),
                                     TextFormField(
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall,
+                                      style: lightModeTheme.textTheme.bodySmall,
                                       onChanged: (value) {
                                         controller.email.value = value;
                                       },
@@ -79,9 +78,8 @@ class SettingContactScreen extends StatelessWidget {
                                       focusNode: emailFocus,
                                       decoration: InputDecoration(
                                         hintText: 'email@example.com',
-                                        hintStyle: Theme.of(context)
-                                            .textTheme
-                                            .labelSmall,
+                                        hintStyle:
+                                            lightModeTheme.textTheme.labelSmall,
                                         contentPadding: const EdgeInsets.only(
                                           bottom: 4,
                                         ),
@@ -95,8 +93,7 @@ class SettingContactScreen extends StatelessWidget {
                                         focusedBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
                                             width: 1,
-                                            color:
-                                                Theme.of(context).primaryColor,
+                                            color: lightModeTheme.primaryColor,
                                           ),
                                         ),
                                       ),
@@ -126,9 +123,8 @@ class SettingContactScreen extends StatelessWidget {
                                       children: [
                                         Text(
                                           '문의 내용',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleSmall,
+                                          style: lightModeTheme
+                                              .textTheme.titleSmall,
                                         ),
                                         Obx(
                                           () => Text(
@@ -146,8 +142,7 @@ class SettingContactScreen extends StatelessWidget {
                                       height: 8,
                                     ),
                                     TextFormField(
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall,
+                                      style: lightModeTheme.textTheme.bodySmall,
                                       onChanged: (value) {
                                         controller.content.value = value;
                                       },
@@ -157,9 +152,8 @@ class SettingContactScreen extends StatelessWidget {
                                       maxLines: null,
                                       decoration: InputDecoration(
                                         hintText: '최대 500자까지 입력 가능합니다.',
-                                        hintStyle: Theme.of(context)
-                                            .textTheme
-                                            .labelSmall,
+                                        hintStyle:
+                                            lightModeTheme.textTheme.labelSmall,
                                         // errorText: '올바른 이메일 형식이 아닙니다.',
                                         counterText: "",
                                         contentPadding: const EdgeInsets.only(
@@ -175,8 +169,7 @@ class SettingContactScreen extends StatelessWidget {
                                         focusedBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
                                             width: 1,
-                                            color:
-                                                Theme.of(context).primaryColor,
+                                            color: lightModeTheme.primaryColor,
                                           ),
                                         ),
                                       ),

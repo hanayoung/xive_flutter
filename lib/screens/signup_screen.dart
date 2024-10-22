@@ -11,7 +11,8 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Get.isDarkMode ? Colors.black : Colors.white,
+      // backgroundColor: Get.isDarkMode ? Colors.black : Colors.white,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -20,14 +21,17 @@ class SignupScreen extends StatelessWidget {
               flex: 4,
               child: Container(
                 child: Center(
-                  child: Get.isDarkMode
-                      ? SvgPicture.asset(
-                          "assets/images/login_logo_dark.svg",
-                        )
-                      : SvgPicture.asset(
-                          "assets/images/login_logo_light.svg",
-                        ),
-                ),
+                    child: SvgPicture.asset(
+                  "assets/images/login_logo_dark.svg",
+                )
+                    // child: Get.isDarkMode
+                    //     ? SvgPicture.asset(
+                    //         "assets/images/login_logo_dark.svg",
+                    //       )
+                    //     : SvgPicture.asset(
+                    //         "assets/images/login_logo_light.svg",
+                    //       ),
+                    ),
               ),
             ),
             Flexible(

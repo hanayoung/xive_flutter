@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:xive/main.dart';
 import 'package:xive/widgets/title_bar.dart';
 
 class ErrorScreen extends StatelessWidget {
@@ -81,7 +82,7 @@ class ErrorScreen extends StatelessWidget {
                     decoration: TextDecoration.underline,
                     fontSize: 16,
                     letterSpacing: -0.02,
-                    color: Theme.of(context).primaryColor,
+                    color: lightModeTheme.primaryColor,
                   ),
                 ),
               ],

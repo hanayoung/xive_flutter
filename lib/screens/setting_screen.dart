@@ -6,8 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:xive/controllers/splash_controller.dart';
+import 'package:xive/main.dart';
 import 'package:xive/services/user_service.dart';
-import 'package:xive/utils/apple_login.dart';
 import 'package:xive/widgets/setting_dialog.dart';
 import 'package:xive/widgets/setting_divider.dart';
 import 'package:xive/widgets/title_bar.dart';
@@ -26,6 +26,8 @@ class SettingScreen extends StatelessWidget {
         controller.accessToken.value, controller.refreshToken.value);
     dynamic loginType = userData['loginType'];
     dynamic name = userData['nickname'];
+    controller.name.value = name;
+    controller.loginType.value = loginType;
     await storage.write(key: 'login_type', value: loginType);
     print("loginType $loginType name $name");
     // await storage.write(key: 'email', value: email);
@@ -35,7 +37,7 @@ class SettingScreen extends StatelessWidget {
     // null이면 서버요청
     if (controller.email.value == null || controller.loginType.value == null) {
       print("email and logintype null");
-      _getUserData();
+      await _getUserData();
     }
   }
 
@@ -46,7 +48,7 @@ class SettingScreen extends StatelessWidget {
   logout(BuildContext context) async {
     Navigator.pop(context);
     await storage.deleteAll();
-    Get.toNamed(Routes.signUp);
+    Get.offAllNamed(Routes.splash);
   }
 
   @override
@@ -79,41 +81,42 @@ class SettingScreen extends StatelessWidget {
                                 child: Center(
                                   child: Text(
                                     '로그인 계정',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                    style: lightModeTheme.textTheme.bodyMedium,
                                   ),
                                 ),
                               ),
                               const SizedBox(
                                 width: 16,
                               ),
-                              Row(
-                                children: [
-                                  controller.loginType.value == "KAKAO"
-                                      ? SvgPicture.asset(
-                                          'assets/images/kakao_small_icon.svg',
-                                        )
-                                      : SvgPicture.asset(
-                                          'assets/images/apple_small_icon.svg',
-                                        ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Container(
-                                    constraints: const BoxConstraints(
-                                      maxWidth: 200,
+                              Obx(() {
+                                return Row(
+                                  children: [
+                                    controller.loginType.value == "KAKAO"
+                                        ? SvgPicture.asset(
+                                            'assets/images/kakao_small_icon.svg',
+                                          )
+                                        : SvgPicture.asset(
+                                            'assets/images/apple_small_icon.svg',
+                                          ),
+                                    const SizedBox(
+                                      width: 8,
                                     ),
-                                    child: Text(
-                                      controller.email.value ??
-                                          controller.name.value!,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall,
+                                    Container(
+                                      constraints: const BoxConstraints(
+                                        maxWidth: 200,
+                                      ),
+                                      child: Text(
+                                        controller.email.value ??
+                                            controller.name.value!,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style:
+                                            lightModeTheme.textTheme.bodySmall,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              )
+                                  ],
+                                );
+                              })
                             ],
                           ),
                           Platform.isIOS
@@ -128,9 +131,8 @@ class SettingScreen extends StatelessWidget {
                                           '애플 계정 연동하기',
                                           style: controller.loginType.value ==
                                                   "APPLE"
-                                              ? Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium
+                                              ? lightModeTheme
+                                                  .textTheme.bodyMedium
                                               : const TextStyle(
                                                   fontSize: 16,
                                                   color: Color(0xFF9E9E9E),
@@ -155,8 +157,7 @@ class SettingScreen extends StatelessWidget {
                                 child: Center(
                                   child: Text(
                                     '카카오 계정 연동하기',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                    style: lightModeTheme.textTheme.bodyMedium,
                                   ),
                                 ),
                               ),
@@ -183,7 +184,7 @@ class SettingScreen extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   '1:1 문의',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: lightModeTheme.textTheme.bodyMedium,
                                 ),
                               ),
                             ),
@@ -210,9 +211,8 @@ class SettingScreen extends StatelessWidget {
                                   child: Center(
                                     child: Text(
                                       '서비스 이용 약관',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
+                                      style:
+                                          lightModeTheme.textTheme.bodyMedium,
                                     ),
                                   ),
                                 ),
@@ -232,9 +232,8 @@ class SettingScreen extends StatelessWidget {
                                   child: Center(
                                     child: Text(
                                       '개인정보 처리 방침',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
+                                      style:
+                                          lightModeTheme.textTheme.bodyMedium,
                                     ),
                                   ),
                                 ),
@@ -258,7 +257,7 @@ class SettingScreen extends StatelessWidget {
                             child: Center(
                               child: Text(
                                 '버전 정보',
-                                style: Theme.of(context).textTheme.bodyMedium,
+                                style: lightModeTheme.textTheme.bodyMedium,
                               ),
                             ),
                           ),
@@ -269,8 +268,7 @@ class SettingScreen extends StatelessWidget {
                                 if (snapshot.hasData) {
                                   return Text(
                                     snapshot.data!.version,
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                    style: lightModeTheme.textTheme.bodyMedium,
                                   );
                                 } else {
                                   return const SizedBox.shrink();

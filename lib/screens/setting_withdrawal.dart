@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:xive/controllers/splash_controller.dart';
+import 'package:xive/main.dart';
 import 'package:xive/routes/pages.dart';
 import 'package:xive/services/user_service.dart';
 import 'package:xive/utils/apple_login.dart';
@@ -79,7 +80,7 @@ class SettingWithdrawal extends StatelessWidget {
         await revokeSignInWithApple();
       }
       await storage.deleteAll();
-      Get.offAllNamed(Routes.signUp);
+      Get.offAllNamed(Routes.splash);
     }
   }
 
@@ -125,9 +126,8 @@ class SettingWithdrawal extends StatelessWidget {
                                     height: 16,
                                   ),
                                   Text('회원 탈퇴 처리 내용',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleSmall),
+                                      style:
+                                          lightModeTheme.textTheme.titleSmall),
                                   const SizedBox(
                                     height: 8,
                                   ),
@@ -137,36 +137,31 @@ class SettingWithdrawal extends StatelessWidget {
                                       TextSpan(
                                         text:
                                             '탈퇴하시면 개인정보 처리 방침에 따라 최대 30일 이내에 ',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                        style:
+                                            lightModeTheme.textTheme.bodySmall,
                                       ),
                                       TextSpan(
                                         text:
                                             '${viewModel.name.value}', // 사용자 맞춤형 텍스트
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                        style:
+                                            lightModeTheme.textTheme.bodySmall,
                                       ),
                                       TextSpan(
                                         text:
                                             '님의 모든 개인정보 및 계정 정보가 삭제됩니다. 이후에는 ',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                        style:
+                                            lightModeTheme.textTheme.bodySmall,
                                       ),
                                       TextSpan(
                                         text:
                                             '${viewModel.name.value}', // 사용자 맞춤형 텍스트 반복
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                        style:
+                                            lightModeTheme.textTheme.bodySmall,
                                       ),
                                       TextSpan(
                                         text: '님의 앱 내 활동 데이터는 다시 복구될 수 없습니다.',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                        style:
+                                            lightModeTheme.textTheme.bodySmall,
                                       ),
                                     ],
                                   )),
@@ -187,9 +182,8 @@ class SettingWithdrawal extends StatelessWidget {
                                         ),
                                         Text(
                                           '회원 탈퇴 처리 내용에 동의합니다.',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
+                                          style: lightModeTheme
+                                              .textTheme.bodySmall,
                                         ),
                                       ],
                                     ),
@@ -209,18 +203,16 @@ class SettingWithdrawal extends StatelessWidget {
                                               ),
                                               Text(
                                                 'XIVE 서비스를 그만 사용하는 이유를 알려주세요!',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleSmall,
+                                                style: lightModeTheme
+                                                    .textTheme.titleSmall,
                                               ),
                                               const SizedBox(
                                                 height: 8,
                                               ),
                                               Text(
                                                 '이후 더 나은 서비스로 찾아뵙겠습니다.',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall,
+                                                style: lightModeTheme
+                                                    .textTheme.bodySmall,
                                               ),
                                               Column(
                                                 children: List<Widget>.generate(

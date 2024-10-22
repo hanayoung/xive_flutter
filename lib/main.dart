@@ -101,7 +101,7 @@ class MyApp extends StatelessWidget {
       getPages: Pages.pages,
       theme: lightModeTheme,
       darkTheme: darkModeTheme,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
     );
   }
 }
