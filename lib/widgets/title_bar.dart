@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:xive/main.dart';
 
 class TitleBar extends StatelessWidget {
   final String title;
@@ -30,7 +31,7 @@ class TitleBar extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               title,
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: lightModeTheme.textTheme.bodyMedium,
             ),
           )
         ],

@@ -8,8 +8,8 @@ class TicketModel {
       endTime,
       eventImageUrl,
       eventBackgroundImageUrl;
-  final String? eventType, eventPlace, seatNumber, eventWebUrl;
-  final bool isNew, isXive, isPurchase;
+  final String? eventType, eventPlace, seatNumber, eventWebUrl, qrImageUrl;
+  final bool isNew, isXive, isPurchase, audioExist;
   final int ticketId, eventId;
 
   TicketModel.fromJson(Map<String, dynamic> json)
@@ -30,5 +30,7 @@ class TicketModel {
         seatNumber = json['seatNumber'],
         eventWebUrl = json['eventWebUrl'],
         isXive = json['isXive'],
-        isPurchase = json['isPurchase'];
+        isPurchase = json['isPurchase'],
+        qrImageUrl = json['qrImageUrl'],
+        audioExist = json['audioExist'];
 }

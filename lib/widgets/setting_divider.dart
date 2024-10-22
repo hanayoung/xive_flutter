@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xive/main.dart';
 
 class SettingDivider extends StatelessWidget {
   const SettingDivider({
@@ -8,7 +9,7 @@ class SettingDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).dividerColor,
+      color: lightModeTheme.dividerColor,
       height: 8,
       width: MediaQuery.of(context).size.width,
     );
