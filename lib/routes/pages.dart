@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xive/screens/audio_guide_screen.dart';
 import 'package:xive/screens/audio_screen.dart';
 import 'package:xive/screens/calendar_screen.dart';
 import 'package:xive/screens/error_screen.dart';
@@ -54,7 +55,7 @@ class Pages {
     ),
     PageItem(
       route: Routes.setting,
-      page: SettingScreen(),
+      page: const SettingScreen(),
     ),
     PageItem(
       route: Routes.audio,
@@ -87,6 +88,10 @@ class Pages {
     PageItem(
       route: Routes.calendar,
       page: const CalendarScreen(),
+    ),
+    PageItem(
+      route: Routes.guide,
+      page: AudioGuideScreen(),
     ),
   ];
 

@@ -10,7 +10,12 @@ class HomeTicket extends StatelessWidget {
   final TicketController controller = TicketController.to;
   HomeTicket({super.key});
   onTicketClicked(BuildContext context, TicketModel ticket) {
-    Get.toNamed(Routes.webview, arguments: ticket);
+    if (ticket.audioExist == true) {
+      print("ticket ? ${ticket.ticketId}");
+      Get.toNamed(Routes.guide, arguments: ticket);
+    } else {
+      Get.toNamed(Routes.webview, arguments: ticket);
+    }
   }
 
   @override

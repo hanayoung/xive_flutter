@@ -3,15 +3,15 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:xive/routes/pages.dart';
 
 class DioInterceptor implements InterceptorsWrapper {
-
   var dio = Dio();
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     final accessToken = await storage.read(key: 'access_token');
     final refreshToken = await storage.read(key: 'refresh_token');
 
@@ -19,7 +19,6 @@ class DioInterceptor implements InterceptorsWrapper {
     options.headers["RefreshToken"] = refreshToken;
 
     return handler.next(options);
-
   }
 
   @override
@@ -29,9 +28,7 @@ class DioInterceptor implements InterceptorsWrapper {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
+    Get.toNamed(Routes.error);
     return handler.next(err);
   }
-
-
-
 }

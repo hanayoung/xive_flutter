@@ -12,9 +12,6 @@ class SplashController extends GetxController {
 
   var accessToken = Rxn<String>();
   var refreshToken = Rxn<String>();
-  var name = Rxn<String>();
-  var email = Rxn<String>();
-  var loginType = Rxn<String>();
 
   static const storage = FlutterSecureStorage();
 
@@ -23,11 +20,10 @@ class SplashController extends GetxController {
   Future<void> setData() async {
     accessToken.value = await storage.read(key: 'access_token');
     refreshToken.value = await storage.read(key: 'refresh_token');
-    name.value = await storage.read(key: 'name');
-    email.value = await storage.read(key: 'email');
-    loginType.value = await storage.read(key: 'login_type');
-    print(
-        "setData access ${accessToken.value} refresh ${refreshToken.value}  name ${name.value}  email ${email.value} loginType ${loginType.value}");
+    // name.value = await storage.read(key: 'name');
+    // email.value = await storage.read(key: 'email');
+    // loginType.value = await storage.read(key: 'login_type');
+    print("setData access ${accessToken.value} refresh ${refreshToken.value}");
     await Future.delayed(const Duration(seconds: 2));
   }
 

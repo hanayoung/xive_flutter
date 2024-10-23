@@ -5,7 +5,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:xive/controllers/splash_controller.dart';
 import 'package:xive/main.dart';
 import 'package:xive/services/user_service.dart';
 import 'package:xive/widgets/setting_dialog.dart';
@@ -15,29 +14,35 @@ import 'package:xive/widgets/title_bar.dart';
 import '../routes/pages.dart';
 
 class SettingScreen extends StatelessWidget {
-  SettingScreen({super.key});
+  const SettingScreen({super.key});
   static const storage = FlutterSecureStorage();
-  final SplashController controller = SplashController.to;
-
-  Future<void> _getUserData() async {
-    print(
-        "getUserData accesToken ${controller.accessToken.value} refreshToken ${controller.refreshToken.value}");
-    Map<String, dynamic>? userData = await UserService().getUserData(
-        controller.accessToken.value, controller.refreshToken.value);
-    dynamic loginType = userData['loginType'];
-    dynamic name = userData['nickname'];
-    controller.name.value = name;
-    controller.loginType.value = loginType;
+  Future<(String, String)> _getUserData() async {
+    var accessToken = await storage.read(key: 'access_token');
+    var refreshToken = await storage.read(key: 'refresh_token');
+    print("getUserData accesToken $accessToken refreshToken $refreshToken");
+    Map<String, dynamic>? userData =
+        await UserService().getUserData(accessToken, refreshToken);
+    String loginType = userData['loginType'] ?? "";
+    String name = userData['nickname'] ?? "";
+    // controller.name.value = name;
+    // controller.loginType.value = loginType;
     await storage.write(key: 'login_type', value: loginType);
     print("loginType $loginType name $name");
     // await storage.write(key: 'email', value: email);
+    return (name, loginType);
   }
 
-  Future<void> _loadLoginData() async {
+  Future<(String, String?, String)> _loadLoginData() async {
     // null이면 서버요청
-    if (controller.email.value == null || controller.loginType.value == null) {
+    var name = await storage.read(key: 'name') ?? "";
+    var email = await storage.read(key: 'email');
+    var loginType = await storage.read(key: 'login_type');
+    if (email == null || loginType == null) {
       print("email and logintype null");
-      await _getUserData();
+      final (fName, fLoginType) = await _getUserData();
+      return (fName, email, fLoginType);
+    } else {
+      return (name, email, loginType);
     }
   }
 
@@ -59,9 +64,11 @@ class SettingScreen extends StatelessWidget {
         child: FutureBuilder(
             future: _loadLoginData(),
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+              if (snapshot.connectionState == ConnectionState.waiting ||
+                  !snapshot.hasData) {
+                return Container();
               } else {
+                final (name, email, loginType) = snapshot.data!;
                 return Column(
                   children: [
                     const TitleBar(
@@ -88,35 +95,31 @@ class SettingScreen extends StatelessWidget {
                               const SizedBox(
                                 width: 16,
                               ),
-                              Obx(() {
-                                return Row(
-                                  children: [
-                                    controller.loginType.value == "KAKAO"
-                                        ? SvgPicture.asset(
-                                            'assets/images/kakao_small_icon.svg',
-                                          )
-                                        : SvgPicture.asset(
-                                            'assets/images/apple_small_icon.svg',
-                                          ),
-                                    const SizedBox(
-                                      width: 8,
+                              Row(
+                                children: [
+                                  loginType == "KAKAO"
+                                      ? SvgPicture.asset(
+                                          'assets/images/kakao_small_icon.svg',
+                                        )
+                                      : SvgPicture.asset(
+                                          'assets/images/apple_small_icon.svg',
+                                        ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Container(
+                                    constraints: const BoxConstraints(
+                                      maxWidth: 200,
                                     ),
-                                    Container(
-                                      constraints: const BoxConstraints(
-                                        maxWidth: 200,
-                                      ),
-                                      child: Text(
-                                        controller.email.value ??
-                                            controller.name.value!,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style:
-                                            lightModeTheme.textTheme.bodySmall,
-                                      ),
+                                    child: Text(
+                                      email ?? name,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: lightModeTheme.textTheme.bodySmall,
                                     ),
-                                  ],
-                                );
-                              })
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                           Platform.isIOS
@@ -129,8 +132,7 @@ class SettingScreen extends StatelessWidget {
                                       child: Center(
                                         child: Text(
                                           '애플 계정 연동하기',
-                                          style: controller.loginType.value ==
-                                                  "APPLE"
+                                          style: loginType == "APPLE"
                                               ? lightModeTheme
                                                   .textTheme.bodyMedium
                                               : const TextStyle(
@@ -142,7 +144,7 @@ class SettingScreen extends StatelessWidget {
                                       ),
                                     ),
                                     SvgPicture.asset(
-                                      controller.loginType.value == "APPLE"
+                                      loginType == "APPLE"
                                           ? 'assets/images/setting_toggle_btn.svg'
                                           : 'assets/images/setting_toggle_off_btn.svg',
                                     ),
@@ -162,7 +164,7 @@ class SettingScreen extends StatelessWidget {
                                 ),
                               ),
                               SvgPicture.asset(
-                                controller.loginType.value == "KAKAO"
+                                loginType == "KAKAO"
                                     ? 'assets/images/setting_toggle_btn.svg'
                                     : 'assets/images/setting_toggle_off_btn.svg',
                               ),
