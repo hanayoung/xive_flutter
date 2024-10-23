@@ -2,26 +2,36 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:xive/models/user_login_model.dart';
+import 'package:xive/routes/pages.dart';
+import 'package:xive/services/dio_interceptor.dart';
 
 class UserService {
   final dio = Dio();
   final baseUrl = dotenv.env['BASE_URL'];
+  final dioInterceptor = DioInterceptor();
 
   Future<UserLoginModel> kakaoLogin(String accessToken) async {
     UserLoginModel userLoginInstance;
-    final response = await dio.post(
-      "$baseUrl/kakao-login",
-      data: {
-        "accessToken": accessToken,
-      },
-    );
-    if (response.statusCode == 200) {
-      userLoginInstance = UserLoginModel.fromJson(response.data);
-      return userLoginInstance;
+    try {
+      final response = await dio.post(
+        "$baseUrl/kakao-login",
+        data: {
+          "accessToken": accessToken,
+        },
+      );
+      if (response.statusCode == 200) {
+        userLoginInstance = UserLoginModel.fromJson(response.data);
+        return userLoginInstance;
+      } else {
+        throw Exception('Failed to login kakao ${response.statusCode}');
+      }
+    } catch (e) {
+      Get.toNamed(Routes.error);
+      rethrow;
     }
-    throw Error();
-    // todo 에러 처리 추가해서 에러 화면으로 이동해야함
   }
 
   Future<UserLoginModel> appleLogin(
@@ -61,6 +71,7 @@ class UserService {
       }
     } on DioException catch (e) {
       print(e.toString());
+      Get.toNamed(Routes.error);
       throw Exception();
     }
   }
@@ -68,21 +79,26 @@ class UserService {
   Future<bool> withdrawal(String accessToken, String refreshToken,
       String withdrawalOptions, String content) async {
     print("option $withdrawalOptions  content $content");
-    final response = await dio.post(
-      "$baseUrl/withdrawal",
-      options: Options(headers: {
-        "AccessToken": accessToken,
-        "RefreshToken": refreshToken,
-      }),
-      data: {
-        "withdrawalOption": withdrawalOptions,
-        "content": content,
-      },
-    );
-    if (response.statusCode == 200) {
-      print("탈퇴 성공 ~");
-      return true;
+    try {
+      final response = await dio.post(
+        "$baseUrl/withdrawal",
+        options: Options(headers: {
+          "AccessToken": accessToken,
+          "RefreshToken": refreshToken,
+        }),
+        data: {
+          "withdrawalOption": withdrawalOptions,
+          "content": content,
+        },
+      );
+      if (response.statusCode == 200) {
+        print("탈퇴 성공 ~");
+        return true;
+      } else
+        throw Exception();
+    } catch (e) {
+      Get.toNamed(Routes.error);
+      rethrow;
     }
-    throw Error();
   }
 }

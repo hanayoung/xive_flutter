@@ -1,18 +1,24 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:xive/services/dio_interceptor.dart';
 
 class ContactService {
   final dio = Dio();
   final baseUrl = dotenv.env['BASE_URL'];
+  final dioInterceptor = DioInterceptor();
+  ContactService._privateConstructor();
 
+  static final ContactService _instance = ContactService._privateConstructor();
+
+  factory ContactService() {
+    return _instance;
+  }
   Future<bool> contact(String accessToken, String refreshToken, String email,
       String contents) async {
+    dio.interceptors.clear();
+    dio.interceptors.add(dioInterceptor);
     final response = await dio.post(
       "$baseUrl/inquiries",
-      options: Options(headers: {
-        "AccessToken": accessToken,
-        "RefreshToken": refreshToken,
-      }),
       data: {
         "email": email,
         "contents": contents,
