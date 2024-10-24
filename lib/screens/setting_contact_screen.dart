@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:xive/controllers/splash_controller.dart';
 import 'package:xive/main.dart';
 import 'package:xive/services/contact_service.dart';
+import 'package:xive/utils/storage_write.dart';
 import 'package:xive/widgets/title_bar.dart';
 
 class ContactController extends GetxController {
@@ -13,14 +14,12 @@ class ContactController extends GetxController {
 class SettingContactScreen extends StatelessWidget {
   SettingContactScreen({super.key});
   final ContactController controller = Get.put(ContactController());
-  final SplashController viewModel = SplashController.to;
-
+  dynamic accessToken, refreshToken;
   _contact() async {
-    bool result = await ContactService().contact(
-        viewModel.accessToken.value!,
-        viewModel.refreshToken.value!,
-        controller.email.value,
-        controller.content.value);
+    accessToken = await storage.read(key: 'access_token') ?? "";
+    refreshToken = await storage.read(key: 'refresh_token') ?? "";
+    bool result = await ContactService().contact(accessToken, refreshToken,
+        controller.email.value, controller.content.value);
     if (result) Get.back();
   }
 

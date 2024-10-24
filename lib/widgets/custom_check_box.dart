@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:xive/screens/setting_withdrawal.dart';
+import 'package:xive/screens/setting_withdrawal_screen.dart';
 
 class CustomCheckBox extends StatelessWidget {
   const CustomCheckBox({

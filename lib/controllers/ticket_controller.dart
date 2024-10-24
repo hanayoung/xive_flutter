@@ -4,12 +4,10 @@ import 'dart:typed_data';
 
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:nfc_manager/platform_tags.dart';
-import 'package:xive/controllers/splash_controller.dart';
 import 'package:xive/models/event_model.dart';
 import 'package:xive/services/event_service.dart';
 import 'package:xive/widgets/bottom_sheet_modal.dart';
@@ -33,23 +31,27 @@ class TicketController extends GetxController {
 
   late BuildContext _buildContext;
 
-  final SplashController viewModel = SplashController.to;
-
   set buildContext(BuildContext context) {
     _buildContext = context;
   }
 
   Future<void> _setTicketList() async {
-    final accessToken = viewModel.accessToken.value;
-    final refreshToken = viewModel.refreshToken.value;
+    print("setTicketList called");
+    final accessToken = await storage.read(key: 'access_token');
+    final refreshToken = await storage.read(key: 'refresh_token');
     if (accessToken != null && refreshToken != null) {
       List<TicketModel> apiTicketList =
           await TicketService().getAllTickets(accessToken, refreshToken);
       if (apiTicketList.isNotEmpty) {
+        print("apiTicketList ${apiTicketList.length}");
         bgImgUrl.value = apiTicketList[0].eventBackgroundImageUrl!;
         ticketList.assignAll(apiTicketList);
         setBgImg(0);
+      } else {
+        print("tickets are empty");
       }
+    } else {
+      print("tokens are null");
     }
   }
 
@@ -59,12 +61,12 @@ class TicketController extends GetxController {
   }
 
   Future<TicketModel?> addTicket(int eventId) async {
-    final accessToken = viewModel.accessToken.value;
-    final refreshToken = viewModel.refreshToken.value;
+    final accessToken = await storage.read(key: 'access_token');
+    final refreshToken = await storage.read(key: 'refresh_token');
     TicketModel? ticketInstance;
     if (accessToken != null && refreshToken != null) {
-      ticketInstance = await TicketService().postTicket(
-          viewModel.accessToken.value!, viewModel.refreshToken.value!, eventId);
+      ticketInstance =
+          await TicketService().postTicket(accessToken, refreshToken, eventId);
       print("ticketInstance $ticketInstance");
       if (ticketInstance.isNew) {
         ticketList.add(ticketInstance);
@@ -110,13 +112,15 @@ class TicketController extends GetxController {
         String id = getNfcId(tag);
         String? decodedNfcMsg = getDecodedNfcMsg(tag);
         if (decodedNfcMsg != null) {
+          final accessToken = await storage.read(key: 'access_token');
+          final refreshToken = await storage.read(key: 'refresh_token');
           print("decodeNFCMsg $decodedNfcMsg");
-          EventModel data = await EventService().getEventData(
-              viewModel.accessToken.value!,
-              viewModel.refreshToken.value!,
-              decodedNfcMsg);
-          print("event data $data");
-          await addTicket(data.eventId);
+          if (accessToken != null && refreshToken != null) {
+            EventModel data = await EventService()
+                .getEventData(accessToken, refreshToken, decodedNfcMsg);
+            print("event data $data");
+            await addTicket(data.eventId);
+          }
         }
         if (Platform.isIOS) {
           NfcManager.instance.stopSession(alertMessage: "NFC_SCAN_SUCCESS");
@@ -155,8 +159,8 @@ class TicketController extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onReady() {
+    super.onReady();
     _setTicketList();
-    super.onInit();
   }
 }

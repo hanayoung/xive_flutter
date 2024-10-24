@@ -36,7 +36,6 @@ appleLogin() async {
     {'login_type': "APPLE"},
   ];
   await writeStorage(data);
-  await SplashController.to.setData();
 
   if (response.isNew == true) {
     Get.offAllNamed(Routes.onBoarding);
