@@ -10,7 +10,7 @@ import 'package:xive/screens/setting_contact_screen.dart';
 import 'package:xive/screens/setting_pp.dart';
 import 'package:xive/screens/setting_screen.dart';
 import 'package:xive/screens/setting_terms.dart';
-import 'package:xive/screens/setting_withdrawal.dart';
+import 'package:xive/screens/setting_withdrawal_screen.dart';
 import 'package:xive/screens/signup_screen.dart';
 import 'package:xive/screens/splash_screen.dart';
 import 'package:xive/screens/webview_screen.dart';
@@ -38,7 +38,7 @@ class Pages {
   static final List<PageItem> pageList = [
     PageItem(
       route: Routes.splash,
-      page: SplashScreen(),
+      page: const SplashScreen(),
       isRoot: true,
     ),
     PageItem(
@@ -85,13 +85,13 @@ class Pages {
       route: Routes.error,
       page: const ErrorScreen(),
     ),
-    PageItem(
-      route: Routes.calendar,
-      page: const CalendarScreen(),
-    ),
+    // PageItem(
+    //   route: Routes.calendar,
+    //   page: const CalendarScreen(),
+    // ),
     PageItem(
       route: Routes.guide,
-      page: AudioGuideScreen(),
+      page: const AudioGuideScreen(),
     ),
   ];
 

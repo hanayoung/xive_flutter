@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:xive/controllers/splash_controller.dart';
 import 'package:xive/main.dart';
 import 'package:xive/routes/pages.dart';
 import 'package:xive/services/user_service.dart';
@@ -19,12 +18,13 @@ class WithDrawalController extends GetxController {
   var name = "";
   var loginType = "";
 
-  Future<void> _loadData() async {
+  Future<void> loadData() async {
     const storage = FlutterSecureStorage();
     accessToken = await storage.read(key: 'access_token') ?? "";
     refreshToken = await storage.read(key: 'refresh_token') ?? "";
     name = await storage.read(key: 'name') ?? "";
     loginType = await storage.read(key: 'login_type') ?? "";
+    print("name $name");
   }
 
   void toggleCheckbox() {
@@ -59,11 +59,17 @@ class WithDrawalController extends GetxController {
     update();
   }
 
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   loadData();
+  // }
+
   @override
-  void onInit() {
-    _loadData().then((_) {
-      super.onInit();
-    });
+  void onReady() {
+    // TODO: implement onReady
+    super.onReady();
+    loadData();
   }
 
   @override
@@ -128,6 +134,7 @@ class SettingWithdrawal extends StatelessWidget {
           onTap: () => textFocus.unfocus(),
           child: LayoutBuilder(builder: (context, constraints) {
             return GetBuilder<WithDrawalController>(
+              autoRemove: true,
               init: WithDrawalController(),
               builder: (controller) {
                 return Column(
