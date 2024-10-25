@@ -18,7 +18,7 @@ kakaoSignUp(BuildContext context) async {
         {'access_token': (response as UserLoginModel).accessToken},
         {'refresh_token': (response).refreshToken},
       ];
-      writeStorage(tokenData);
+      await writeStorage(tokenData);
 
       User user = await UserApi.instance.me();
 
@@ -27,7 +27,7 @@ kakaoSignUp(BuildContext context) async {
         {'name': user.kakaoAccount?.profile?.nickname},
         {'login_type': 'KAKAO'},
       ];
-      writeStorage(userData);
+      await writeStorage(userData);
 
       if (response.isNew == true) {
         Get.offAllNamed(Routes.onBoarding);
@@ -50,7 +50,7 @@ kakaoSignUp(BuildContext context) async {
           {'access_token': (response as UserLoginModel).accessToken},
           {'refresh_token': (response).refreshToken},
         ];
-        writeStorage(tokenData);
+        await writeStorage(tokenData);
 
         User user = await UserApi.instance.me();
 
@@ -59,7 +59,7 @@ kakaoSignUp(BuildContext context) async {
           {'name': user.kakaoAccount?.profile?.nickname},
           {'login_type': 'KAKAO'},
         ];
-        writeStorage(userData);
+        await writeStorage(userData);
         if (response.isNew == true) {
           Get.offAllNamed(Routes.onBoarding);
         } else {
@@ -77,7 +77,7 @@ kakaoSignUp(BuildContext context) async {
         {'access_token': (response as UserLoginModel).accessToken},
         {'refresh_token': (response).refreshToken},
       ];
-      writeStorage(tokenData);
+      await writeStorage(tokenData);
 
       User user = await UserApi.instance.me();
 
@@ -86,7 +86,7 @@ kakaoSignUp(BuildContext context) async {
         {'name': user.kakaoAccount?.profile?.nickname},
         {'login_type': 'KAKAO'},
       ];
-      writeStorage(userData);
+      await writeStorage(userData);
       if (response.isNew == true) {
         Get.offAllNamed(Routes.onBoarding);
       } else {
