@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -87,6 +88,10 @@ void main() async {
   KakaoSdk.init(
     nativeAppKey: dotenv.env['NATIVE_API_KEY'],
   );
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   initializeDateFormatting().then((_) => runApp(const MyApp()));
 }
 

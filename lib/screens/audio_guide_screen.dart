@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:xive/main.dart';
 import 'package:xive/models/ticket_model.dart';
 import 'package:xive/routes/pages.dart';
@@ -13,11 +12,8 @@ class AudioGuideScreen extends StatelessWidget {
 
   _getIsWinning(TicketModel? ticket) async {
     bool result = false;
-    print("isTIcket null?");
-    print(ticket?.ticketId);
     if (ticket != null) {
       result = await TicketService().getWinningStatus(ticket.ticketId);
-      print("result $result");
     }
     return result;
   }

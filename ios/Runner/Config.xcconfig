@@ -1,0 +1,11 @@
+//
+//  Config.xcconfig
+//  Runner
+//
+//  Created by aoreo on 10/25/24.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+APIKey = kakao91d4398a3a1c3fbef81cb63a18972afd

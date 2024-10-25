@@ -40,7 +40,7 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>kakao91d4398a3a1c3fbef81cb63a18972afd</string>
+				<string>${APIKey}</string>
 			</array>
 		</dict>
 	</array>
