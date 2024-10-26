@@ -111,8 +111,7 @@ class AudioPlayController extends GetxController{
     //header
     audioImageUrl.value = audioContents["audioImageUrl"];
     audioName.value = audioContents["audioName"];
-    audioArtist.value = "Michel Henry";
-    audioDescription.value = ['2011, 캔버스에 아크릴릭, 펜, 국립현대미술관 소장',  '국립현대미술관 발전 후원위원회 기증 '];
+    audioArtist.value = audioContents["audioArtist"];
 
     // player url 갱신
     try {
@@ -294,7 +293,7 @@ class AudioPlayController extends GetxController{
                       Expanded(
                         child: Text(
                           '${AudioPlayController.to.audioName}',
-                          style: TextStyle(color: Get.isDarkMode? Color(0xFFDFDFDF):Colors.black, fontSize: 16, fontFamily: 'Pretendard', fontWeight: FontWeight.w400,letterSpacing: -0.32,),
+                          style: const TextStyle(color: Colors.black, fontSize: 16, fontFamily: 'Pretendard', fontWeight: FontWeight.w400,letterSpacing: -0.32,),
                         ),),
                     ],
                   ),
@@ -305,20 +304,20 @@ class AudioPlayController extends GetxController{
                       onTap: (){
                         beforePlayList();
                       },
-                      child: SvgPicture.asset(Get.isDarkMode?"assets/images/Stop_and_play_left_dark.svg":"assets/images/Stop_and_play_left_light.svg", width: 32, height: 32, fit: BoxFit.fitHeight,),
+                      child: SvgPicture.asset("assets/images/Stop_and_play_left_light.svg", width: 32, height: 32, fit: BoxFit.fitHeight,),
                     ),
                     InkWell(
                       onTap: (){
                         updateIsPlay();
                       },
-                      child: AudioPlayController.to.isPlay.value ? SvgPicture.asset(Get.isDarkMode?"assets/images/Stop_dark.svg":"assets/images/Stop_light.svg", width: 32, height: 32, fit: BoxFit.fitHeight)
-                          :SvgPicture.asset(Get.isDarkMode?"assets/images/play_dark.svg":"assets/images/play_light.svg", width: 32, height: 32, fit: BoxFit.fitHeight,),
+                      child: AudioPlayController.to.isPlay.value ? SvgPicture.asset("assets/images/Stop_light.svg", width: 32, height: 32, fit: BoxFit.fitHeight)
+                          :SvgPicture.asset("assets/images/play_light.svg", width: 32, height: 32, fit: BoxFit.fitHeight,),
                     ),
                     InkWell(
                       onTap: () {
                         nextPlayList();
                       },
-                      child: SvgPicture.asset(Get.isDarkMode?"assets/images/Stop_and_play_right_dark.svg":"assets/images/Stop_and_play_right_light.svg", width: 32, height: 32,fit: BoxFit.fitHeight),
+                      child: SvgPicture.asset("assets/images/Stop_and_play_right_light.svg", width: 32, height: 32,fit: BoxFit.fitHeight),
                     )
                   ],
                 )
@@ -336,7 +335,7 @@ class AudioPlayController extends GetxController{
   Widget PlayTool(){
 
     return Container(
-        height: 220,
+        height: 210,
         padding: const EdgeInsets.fromLTRB(0,24,0,0),
         child: Column(
           children: [
@@ -348,27 +347,27 @@ class AudioPlayController extends GetxController{
                 InkWell(
                   onTap: (){
                     before10Seconds();
-                  }, child: SvgPicture.asset(Get.isDarkMode?"assets/images/10_seconds_before_dark.svg":"assets/images/10_seconds_before_light.svg", width: 32, height: 32, fit: BoxFit.fitHeight,)
+                  }, child: SvgPicture.asset("assets/images/10_seconds_before_light.svg", width: 32, height: 32, fit: BoxFit.fitHeight,)
                 ),
                 Row(
                   children: [
                     InkWell(
                       onTap: () async{
                         beforePlayList();
-                      }, child: SvgPicture.asset(Get.isDarkMode?"assets/images/Stop_and_play_left_dark.svg":"assets/images/Stop_and_play_left_light.svg", width: 32, height: 32, fit: BoxFit.fitHeight,)
+                      }, child: SvgPicture.asset("assets/images/Stop_and_play_left_light.svg", width: 32, height: 32, fit: BoxFit.fitHeight,)
                     ),
                     SizedBox(width: 5,),
                     Obx(() => InkWell(
                           onTap: (){
                             updateIsPlay();
-                          },child: isPlay.value? SvgPicture.asset(Get.isDarkMode?"assets/images/Stop_dark.svg":"assets/images/Stop_light.svg", width: 54, height: 54, fit: BoxFit.fitHeight,)
-                        :SvgPicture.asset(Get.isDarkMode?"assets/images/play_dark.svg":"assets/images/play_light.svg", width: 54, height: 54, fit: BoxFit.fitHeight,)
+                          },child: isPlay.value? SvgPicture.asset("assets/images/Stop_light.svg", width: 54, height: 54, fit: BoxFit.fitHeight,)
+                        :SvgPicture.asset("assets/images/play_light.svg", width: 54, height: 54, fit: BoxFit.fitHeight,)
                       ),
                     ),
                     SizedBox(width: 5,),
                     InkWell(onTap:() {
                       nextPlayList();
-                    },child: SvgPicture.asset(Get.isDarkMode?"assets/images/Stop_and_play_right_dark.svg":"assets/images/Stop_and_play_right_light.svg", width: 32, height: 32, fit: BoxFit.fitHeight,)
+                    },child: SvgPicture.asset("assets/images/Stop_and_play_right_light.svg", width: 32, height: 32, fit: BoxFit.fitHeight,)
                     )
                   ],
                 ),
@@ -376,11 +375,11 @@ class AudioPlayController extends GetxController{
                 InkWell(
                     onTap: () {
                       after10Seconds();
-                    },child: SvgPicture.asset(Get.isDarkMode?"assets/images/10_seconds_after_dark.svg":"assets/images/10_seconds_after_light.svg", width: 32, height: 32, fit: BoxFit.fitHeight,)
+                    },child: SvgPicture.asset("assets/images/10_seconds_after_light.svg", width: 32, height: 32, fit: BoxFit.fitHeight,)
                 )
               ],
             ),
-            const SizedBox(height: 71,),
+            const SizedBox(height: 60,),
             Row(
               mainAxisAlignment:MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.min,
@@ -400,7 +399,7 @@ class AudioPlayController extends GetxController{
                                 height: 70,
                                 padding: EdgeInsets.symmetric(vertical: 16),
                                 decoration: BoxDecoration(
-                                    color: Get.isDarkMode?Color(0xFF222222):Color(0xFFF9F9F9),
+                                    color: Color(0xFFF9F9F9),
                                     borderRadius: BorderRadius.circular(4)
                                 ),
                                 child: SfSliderTheme(
@@ -409,8 +408,8 @@ class AudioPlayController extends GetxController{
                                     inactiveTrackHeight : 1.5,
                                     thumbRadius:7,
                                     labelOffset: Offset(0.0, 8),
-                                    activeLabelStyle: TextStyle(color: Get.isDarkMode? Colors.white:Colors.black, fontSize: 10, fontFamily: 'Pretendard', fontWeight: FontWeight.w500, letterSpacing: -0.20,),
-                                    inactiveLabelStyle: TextStyle(color:Get.isDarkMode? Colors.white:Colors.black, fontSize: 10, fontFamily: 'Pretendard', fontWeight: FontWeight.w500, letterSpacing: -0.20,),
+                                    activeLabelStyle: TextStyle(color: Colors.black, fontSize: 10, fontFamily: 'Pretendard', fontWeight: FontWeight.w500, letterSpacing: -0.20,),
+                                    inactiveLabelStyle: TextStyle(color:Colors.black, fontSize: 10, fontFamily: 'Pretendard', fontWeight: FontWeight.w500, letterSpacing: -0.20,),
                                   ),
                                   child: SfSlider(
                                       min: 0.5,
@@ -420,8 +419,8 @@ class AudioPlayController extends GetxController{
                                       enableTooltip: false,
                                       interval: 0.25,
                                       stepSize: 0.25,
-                                      activeColor: Get.isDarkMode?Colors.white:Colors.black,
-                                      inactiveColor: Get.isDarkMode?Colors.white24.withOpacity(0.5):Color(0x9E9E9E).withOpacity(0.5),
+                                      activeColor:Colors.black,
+                                      inactiveColor: Color(0x9E9E9E).withOpacity(0.5),
                                       labelFormatterCallback: (dynamic actualValue, String formattedText) {
                                         return actualValue.toString()+"x";
                                       },
@@ -439,12 +438,9 @@ class AudioPlayController extends GetxController{
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(Get.isDarkMode?"assets/images/Speed_alt_dark.svg":"assets/images/Speed_alt_light.svg", width: 24, height: 24, fit: BoxFit.fitHeight,),
+                        SvgPicture.asset("assets/images/Speed_alt_light.svg", width: 24, height: 24, fit: BoxFit.fitHeight,),
                         const SizedBox(width: 5,),
-                        Obx(() => Text(
-                            '재생 속도 (x${speedValue.value})',
-                            style: TextStyle(color: Get.isDarkMode?Colors.white:Colors.black, fontSize: 10, fontWeight: FontWeight.w500),
-                          ),
+                        Obx(() => Text('재생 속도 (x${speedValue.value})', style: TextStyle(color: Colors.black, fontSize: 10, fontWeight: FontWeight.w500),),
                         )
                       ],
                     ),
@@ -458,12 +454,9 @@ class AudioPlayController extends GetxController{
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(Get.isDarkMode?"assets/images/cc_dark.svg":"assets/images/cc_light.svg", width: 24, height: 24, fit: BoxFit.fitHeight,),
+                        SvgPicture.asset("assets/images/cc_light.svg", width: 24, height: 24, fit: BoxFit.fitHeight,),
                         const SizedBox(width: 5,),
-                        Text(
-                          '자막 보기',
-                          style: TextStyle(color:Get.isDarkMode?Colors.white:Colors.black, fontSize: 10, fontWeight: FontWeight.w500 ),
-                        )
+                        const Text('자막 보기', style: TextStyle(color:Colors.black, fontSize: 10, fontWeight: FontWeight.w500 ),)
                       ],
                     ),
                   ),
@@ -478,10 +471,10 @@ class AudioPlayController extends GetxController{
 
     return Stack(
         children: [
-          Image.network(audioImageUrl.value, width: double.infinity, height: double.infinity, fit: BoxFit.fill,),
+          Image.network(audioImageUrl.value, width: double.infinity, height: double.infinity, fit: BoxFit.fitWidth,),
           Container(
             //TODO opacity 80 -> 90
-            color: Get.isDarkMode?Colors.black.withOpacity(0.9):Colors.white.withOpacity(0.9),
+            color: Colors.white.withOpacity(0.9),
             child: SafeArea(
               child: Container(
                 padding: EdgeInsets.fromLTRB(24, AppBar().preferredSize.height, 24,0),
@@ -520,8 +513,8 @@ class AudioPlayController extends GetxController{
                                               padding: const EdgeInsets.fromLTRB(0,0,0,26),
                                               child: Text(
                                                   subTitleList[index]["sentence"],
-                                                  style:  highLightIndex.value ? TextStyle(color: Get.isDarkMode?Colors.white:Colors.black, fontSize: 20, fontFamily: 'Pretendard', fontWeight: FontWeight.w700, letterSpacing: -0.40,)
-                                                      :TextStyle(color: Get.isDarkMode?Colors.white.withOpacity(0.5):Colors.black.withOpacity(0.5), fontSize: 20, fontFamily: 'Pretendard', fontWeight: FontWeight.w700, letterSpacing: -0.40,),
+                                                  style:  highLightIndex.value ? const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Pretendard', fontWeight: FontWeight.w700, letterSpacing: -0.40,)
+                                                      : TextStyle(color: Colors.black.withOpacity(0.5), fontSize: 20, fontFamily: 'Pretendard', fontWeight: FontWeight.w700, letterSpacing: -0.40,),
                                               ),
                                             ),
                                           );}
