@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:xive/models/winning_model.dart';
 import 'package:xive/widgets/event_winning_item_dialog.dart';
 
 class EventWinningDialog extends StatelessWidget {
-  const EventWinningDialog({super.key});
+  final WinningModel winningInstance;
+  const EventWinningDialog({
+    super.key,
+    required this.winningInstance,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -81,11 +86,19 @@ class EventWinningDialog extends StatelessWidget {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return const EventWinningItemDialog(
-                                  title: '2025 달력세트 당첨!',
-                                  content: '2025 달력세트',
-                                  imgPath:
-                                      'assets/images/dialog_winning_calendar.svg');
+                              return EventWinningItemDialog(
+                                  title:
+                                      winningInstance.isWinningCalendar == true
+                                          ? '2025 달력세트 당첨!'
+                                          : '엽서세트 당첨!',
+                                  content:
+                                      winningInstance.isWinningCalendar == true
+                                          ? '2025 달력세트'
+                                          : '엽서세트',
+                                  imgPath: winningInstance.isWinningCalendar ==
+                                          true
+                                      ? "assets/images/dialog_winning_calendar.png"
+                                      : "assets/images/dialog_winning_post.png");
                             });
                       },
                     ),

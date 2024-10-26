@@ -87,12 +87,12 @@ kakaoSignUp(BuildContext context) async {
         {'login_type': 'KAKAO'},
       ];
       await writeStorage(userData);
+      print('writeStorage $userData $tokenData');
       if (response.isNew == true) {
         Get.offAllNamed(Routes.onBoarding);
       } else {
         Get.offAllNamed(Routes.home);
       }
-      // 이게 진짜 코드
     } catch (error) {
       print('카카오계정으로 로그인 실패 $error');
     }

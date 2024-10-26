@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:xive/controllers/audio_controller.dart';
 import 'package:xive/main.dart';
 import 'package:xive/models/ticket_model.dart';
+import 'package:xive/models/winning_model.dart';
 import 'package:xive/routes/pages.dart';
 import 'package:xive/services/ticket_service.dart';
 import 'package:xive/widgets/event_winning_dialog.dart';
@@ -14,22 +15,27 @@ class AudioGuideScreen extends StatelessWidget {
   TicketModel? ticket;
 
   _getIsWinning(TicketModel? ticket) async {
-    bool result = false;
+    WinningModel winningInstance =
+        WinningModel(isWinningCalendar: false, isWinningPostcard: false);
     if (ticket != null) {
-      result = await TicketService().getWinningStatus(ticket.ticketId);
+      winningInstance = await TicketService().getWinningStatus(ticket.ticketId);
     }
-    return result;
+    return winningInstance;
   }
 
   Future<void> _showWinningDialog(
       BuildContext context, TicketModel? ticket) async {
-    bool result = await _getIsWinning(ticket);
-    if (result == true) {
+    WinningModel result = await _getIsWinning(ticket);
+    print(
+        "winning status ${result.isWinningCalendar}  ${result.isWinningPostcard}");
+    if (result.isWinningCalendar == true || result.isWinningPostcard == true) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(
             context: context,
             builder: (BuildContext context) {
-              return const EventWinningDialog();
+              return EventWinningDialog(
+                winningInstance: result,
+              );
             });
       });
     }

@@ -22,52 +22,61 @@ class EventWinningItemDialog extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height * 0.5,
         alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 24,
-                color: Color(0xFF393939),
-                fontWeight: FontWeight.w700,
-                letterSpacing: -0.02,
-              ),
-            ),
-            SvgPicture.asset(imgPath),
-            Text.rich(
-              textAlign: TextAlign.center,
-              TextSpan(
-                text: '전시 관람 후 1층 인포에서\n',
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 40,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                title,
                 style: const TextStyle(
-                  color: Color(0xFF323232),
-                  fontSize: 18,
+                  fontSize: 24,
+                  color: Color(0xFF393939),
+                  fontWeight: FontWeight.w700,
                   letterSpacing: -0.02,
-                  fontWeight: FontWeight.w400,
                 ),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: content,
-                    style: const TextStyle(
-                      color: Color(0xFF323232),
-                      fontSize: 18,
-                      letterSpacing: -0.02,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const TextSpan(
-                    text: '를 수령해주세요',
-                    style: TextStyle(
-                      color: Color(0xFF323232),
-                      fontSize: 18,
-                      letterSpacing: -0.02,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  )
-                ],
               ),
-            ),
-          ],
+              Image.asset(
+                imgPath,
+                width: 180,
+                height: 200,
+              ),
+              Text.rich(
+                textAlign: TextAlign.center,
+                TextSpan(
+                  text: '전시 관람 후 1층 인포에서\n',
+                  style: const TextStyle(
+                    color: Color(0xFF323232),
+                    fontSize: 18,
+                    letterSpacing: -0.02,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: content,
+                      style: const TextStyle(
+                        color: Color(0xFF323232),
+                        fontSize: 18,
+                        letterSpacing: -0.02,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const TextSpan(
+                      text: '를 수령해주세요',
+                      style: TextStyle(
+                        color: Color(0xFF323232),
+                        fontSize: 18,
+                        letterSpacing: -0.02,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
