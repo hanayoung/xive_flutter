@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class EventWinningItemDialog extends StatelessWidget {
   final String title, content, imgPath;
@@ -33,7 +34,7 @@ class EventWinningItemDialog extends StatelessWidget {
                 letterSpacing: -0.02,
               ),
             ),
-            Image.asset(imgPath),
+            SvgPicture.asset(imgPath),
             Text.rich(
               textAlign: TextAlign.center,
               TextSpan(

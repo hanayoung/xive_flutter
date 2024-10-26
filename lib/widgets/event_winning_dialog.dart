@@ -85,7 +85,7 @@ class EventWinningDialog extends StatelessWidget {
                                   title: '2025 달력세트 당첨!',
                                   content: '2025 달력세트',
                                   imgPath:
-                                      'assets/images/dialog_winning_calendar.png');
+                                      'assets/images/dialog_winning_calendar.svg');
                             });
                       },
                     ),
