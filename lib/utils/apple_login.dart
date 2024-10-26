@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:xive/controllers/splash_controller.dart';
 import 'package:xive/models/user_login_model.dart';
 import 'package:xive/routes/pages.dart';
 import 'package:xive/services/user_service.dart';
@@ -36,7 +35,6 @@ appleLogin() async {
     {'login_type': "APPLE"},
   ];
   await writeStorage(data);
-  await SplashController.to.setData();
 
   if (response.isNew == true) {
     Get.offAllNamed(Routes.onBoarding);

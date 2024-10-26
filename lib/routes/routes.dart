@@ -15,4 +15,5 @@ abstract class Routes {
   static const webview = '/webview';
   static const error = '/error';
   static const calendar = '/calendar';
+  static const guide = '/guide';
 }

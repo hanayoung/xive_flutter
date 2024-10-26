@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xive/screens/audio_guide_screen.dart';
 import 'package:xive/screens/audio_screen.dart';
 import 'package:xive/screens/calendar_screen.dart';
 import 'package:xive/screens/error_screen.dart';
@@ -9,7 +10,7 @@ import 'package:xive/screens/setting_contact_screen.dart';
 import 'package:xive/screens/setting_pp.dart';
 import 'package:xive/screens/setting_screen.dart';
 import 'package:xive/screens/setting_terms.dart';
-import 'package:xive/screens/setting_withdrawal.dart';
+import 'package:xive/screens/setting_withdrawal_screen.dart';
 import 'package:xive/screens/signup_screen.dart';
 import 'package:xive/screens/splash_screen.dart';
 import 'package:xive/screens/webview_screen.dart';
@@ -37,7 +38,7 @@ class Pages {
   static final List<PageItem> pageList = [
     PageItem(
       route: Routes.splash,
-      page: SplashScreen(),
+      page: const SplashScreen(),
       isRoot: true,
     ),
     PageItem(
@@ -54,7 +55,7 @@ class Pages {
     ),
     PageItem(
       route: Routes.setting,
-      page: SettingScreen(),
+      page: const SettingScreen(),
     ),
     PageItem(
       route: Routes.audio,
@@ -84,9 +85,13 @@ class Pages {
       route: Routes.error,
       page: const ErrorScreen(),
     ),
+    // PageItem(
+    //   route: Routes.calendar,
+    //   page: const CalendarScreen(),
+    // ),
     PageItem(
-      route: Routes.calendar,
-      page: const CalendarScreen(),
+      route: Routes.guide,
+      page: const AudioGuideScreen(),
     ),
   ];
 
