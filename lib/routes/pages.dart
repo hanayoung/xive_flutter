@@ -59,7 +59,7 @@ class Pages {
     ),
     PageItem(
       route: Routes.audio,
-      page: const AudioScreen(),
+      page: AudioScreen(),
     ),
     PageItem(
       route: Routes.contact,
@@ -91,7 +91,7 @@ class Pages {
     // ),
     PageItem(
       route: Routes.guide,
-      page: const AudioGuideScreen(),
+      page: AudioGuideScreen(),
     ),
   ];
 

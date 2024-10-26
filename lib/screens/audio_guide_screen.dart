@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xive/controllers/audio_controller.dart';
 import 'package:xive/main.dart';
 import 'package:xive/models/ticket_model.dart';
 import 'package:xive/routes/pages.dart';
@@ -8,7 +9,9 @@ import 'package:xive/widgets/event_winning_dialog.dart';
 import 'package:xive/widgets/title_bar.dart';
 
 class AudioGuideScreen extends StatelessWidget {
-  const AudioGuideScreen({super.key});
+  AudioGuideScreen({super.key});
+
+  TicketModel? ticket;
 
   _getIsWinning(TicketModel? ticket) async {
     bool result = false;
@@ -34,7 +37,7 @@ class AudioGuideScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TicketModel? ticket = Get.arguments;
+    ticket = Get.arguments;
     return FutureBuilder(
         future: _showWinningDialog(context, ticket),
         builder: (context, snapshot) {
@@ -181,7 +184,10 @@ class AudioGuideScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(30)),
                                   backgroundColor: Colors.black,
                                 ),
-                                onPressed: () => Get.toNamed(Routes.audio),
+                                onPressed: () => {
+                                  AudioController.to.ticketModel = ticket,
+                                  Get.toNamed(Routes.audio)
+                                },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 12,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xive/models/audio_model.dart';
 import 'package:xive/models/audio_play_list_model.dart';
+import 'package:xive/models/ticket_model.dart';
 import 'package:xive/services/audio_service.dart';
 import 'audio_play_controller.dart';
 
@@ -27,11 +28,12 @@ class AudioController extends GetxController {
     "runningTime":0
   }.obs;
 
-
   var playList = [].obs;
 
   RxInt playIndex = 0.obs;
   RxBool isPlayBar = false.obs;
+
+  late TicketModel? ticketModel;
 
   void changePlayIndex(int index) async{
 
@@ -52,13 +54,15 @@ class AudioController extends GetxController {
 
 
 
-  void _initEventAudio() async{
+  void initEventAudio() async{
     //TODO
-    var data = await AudioService().getEventAudio(51);
+    var data = await AudioService().getEventAudio(ticketModel!.eventId);
+    playList.clear();
     AudioPlayController.to.isPlay.value = false;
     _initAudioHeader(data);
     await _initPlayList(data);
     AudioPlayController.to.updatePlay(0);
+    update();
   }
 
   void _initAudioHeader(var data){
@@ -77,7 +81,8 @@ class AudioController extends GetxController {
         "audioId": element["audioId"],
         "audioImageUrl": element["audioImageUrl"],
         "audioSoundUrl":element["audioSoundUrl"],
-        "audioName": element["audioName"]
+        "audioName": element["audioName"],
+        "audioArtist": element["audioArtist"]
       });
 
     });
@@ -89,8 +94,6 @@ class AudioController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    _initEventAudio();
-    update();
   }
 
   @override
