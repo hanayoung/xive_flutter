@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:xive/main.dart';
+import 'package:xive/routes/pages.dart';
 import 'package:xive/widgets/title_bar.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({super.key});
+
+  void reTry() {
+    Get.offAllNamed(Routes.splash);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +67,7 @@ class ErrorScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(5)),
                           backgroundColor: Colors.black,
                         ),
-                        onPressed: () {},
+                        onPressed: () => reTry(),
                         child: const Text(
                           '홈으로 돌아가기',
                           style: TextStyle(
@@ -76,13 +83,16 @@ class ErrorScreen extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                Text(
-                  '다시 시도',
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    fontSize: 16,
-                    letterSpacing: -0.02,
-                    color: lightModeTheme.primaryColor,
+                InkWell(
+                  onTap: () => reTry(),
+                  child: Text(
+                    '다시 시도',
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontSize: 16,
+                      letterSpacing: -0.02,
+                      color: lightModeTheme.primaryColor,
+                    ),
                   ),
                 ),
               ],

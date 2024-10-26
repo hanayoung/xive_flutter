@@ -18,7 +18,6 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image using Obx
           Obx(() {
             return Container(
               decoration: controller.bgImgUrl.value.isNotEmpty
@@ -89,7 +88,6 @@ class HomeScreen extends StatelessWidget {
                     ),
             );
           }),
-          // Top SafeArea (white)
           Positioned(
             top: 0,
             left: 0,
@@ -99,7 +97,6 @@ class HomeScreen extends StatelessWidget {
               height: MediaQuery.of(context).padding.top,
             ),
           ),
-          // SafeArea for content
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -121,21 +118,21 @@ class HomeScreen extends StatelessWidget {
                           width: 24,
                         ),
                       ),
-                      InkWell(
-                        onTap: () => Get.toNamed(Routes.audio),
-                        child: Image.asset(
-                          'assets/images/audio_icon.png',
-                          height: 24,
-                          width: 24,
-                        ),
-                      ),
+                      // InkWell(
+                      //   onTap: () => Get.toNamed(Routes.audio),
+                      //   child: Image.asset(
+                      //     'assets/images/audio_icon.png',
+                      //     height: 24,
+                      //     width: 24,
+                      //   ),
+                      // ),
                       SvgPicture.asset(
                         'assets/images/home_xive_icon.svg',
                         height: 12,
                         width: 48,
                       ),
-                      InkWell(
-                        onTap: () => Get.toNamed(Routes.calendar),
+                      Opacity(
+                        opacity: 0.0,
                         child: SvgPicture.asset(
                             'assets/images/home_calendar_icon.svg',
                             height: 24,
@@ -148,6 +145,18 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      floatingActionButton: Transform.scale(
+        scale: 1.3,
+        child: FloatingActionButton(
+          onPressed: () => controller.readNfc(),
+          elevation: 0,
+          shape: const CircleBorder(),
+          backgroundColor: Colors.white.withOpacity(0),
+          child: Image.asset(
+            'assets/images/home_nfc_icon_black.png',
+          ),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
