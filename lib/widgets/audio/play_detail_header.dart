@@ -51,13 +51,13 @@ class PlayDetailHeader extends StatelessWidget {
                     )
                   ],
                 ),
-                SizedBox(height: 8,),
+                // SizedBox(height: 8,),
                 //TODO
-                for(int i=0; i<c.audioDescription.length; i++)
-                  c.isSubtitle.value?Container():Text(
-                    c.audioDescription[i],
-                    style: TextStyle(color: Get.isDarkMode?Colors.white.withOpacity(0.7):Colors.black.withOpacity(0.7), fontSize: 14, fontFamily: 'Pretendard', fontWeight: FontWeight.w400, letterSpacing: -0.28,),
-                  )
+                // for(int i=0; i<c.audioDescription.length; i++)
+                //   c.isSubtitle.value?Container():Text(
+                //     c.audioDescription[i],
+                //     style: TextStyle(color: Get.isDarkMode?Colors.white.withOpacity(0.7):Colors.black.withOpacity(0.7), fontSize: 14, fontFamily: 'Pretendard', fontWeight: FontWeight.w400, letterSpacing: -0.28,),
+                //   )
               ],
             ),
           ),

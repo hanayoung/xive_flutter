@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:xive/controllers/audio_controller.dart';
 import 'package:xive/controllers/audio_play_controller.dart';
+import 'package:xive/models/ticket_model.dart';
 import 'package:xive/widgets/audio/audio_card.dart';
 
 import '../widgets/audio/audio_header.dart';
@@ -21,6 +22,7 @@ class AudioScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AudioController.to.buildContext = context;
+    AudioController.to.initEventAudio();
     AudioPlayController.to.buildContext = context;
 
     return GetBuilder<AudioController>(builder: (c) {
