@@ -12,7 +12,7 @@ class ErrorScreen extends StatelessWidget {
 
   void reTry() async {
     await storage.deleteAll();
-    Get.offAllNamed(Routes.splash);
+    Get.offAllNamed(Routes.signUp);
   }
 
   @override
