@@ -39,9 +39,10 @@ class AudioController extends GetxController {
 
     if(isPlayBar.value == false){
       isPlayBar.value = true;
+      AudioPlayController.to.updateIsPlay();
     }
 
-    AudioPlayController.to.updateIsPlay();
+
     await AudioPlayController.to.updatePlay(index);
 
     playIndex.value = index;
