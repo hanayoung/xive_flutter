@@ -471,7 +471,7 @@ class AudioPlayController extends GetxController{
 
     return Stack(
         children: [
-          Image.network(audioImageUrl.value, width: double.infinity, height: double.infinity, fit: BoxFit.fitWidth,),
+          Obx(() => Image.network(audioImageUrl.value, width: double.infinity, height: double.infinity, fit: BoxFit.fill,)),
           Container(
             //TODO opacity 80 -> 90
             color: Colors.white.withOpacity(0.9),
@@ -544,10 +544,10 @@ class AudioPlayController extends GetxController{
             progress: snapshot.data?.progress ?? Duration.zero ,
             buffered: snapshot.data?.buffered ?? Duration.zero,
             total: snapshot.data?.total ?? Duration.zero,
-            progressBarColor: Get.isDarkMode?Colors.white:Colors.black,
-            baseBarColor: Get.isDarkMode?Colors.white.withOpacity(0.24):Color(0xFF9E9E9E),
-            bufferedBarColor: Get.isDarkMode?Colors.white.withOpacity(0.24):Color(0xFF9E9E9E),
-            thumbColor: Get.isDarkMode?Colors.white:Colors.black,
+            progressBarColor: Colors.black,
+            baseBarColor: Color(0xFF9E9E9E),
+            bufferedBarColor: Color(0xFF9E9E9E),
+            thumbColor: Colors.black,
             barHeight: 3.0,
             thumbRadius: 0.0,
             onSeek: (duration) => player.seek(duration)
