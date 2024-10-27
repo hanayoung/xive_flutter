@@ -4,12 +4,14 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:xive/main.dart';
 import 'package:xive/routes/pages.dart';
+import 'package:xive/utils/storage_write.dart';
 import 'package:xive/widgets/title_bar.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({super.key});
 
-  void reTry() {
+  void reTry() async {
+    await storage.deleteAll();
     Get.offAllNamed(Routes.splash);
   }
 

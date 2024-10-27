@@ -29,6 +29,7 @@ kakaoSignUp(BuildContext context) async {
       ];
       await writeStorage(userData);
 
+      print('writeStorage $userData $tokenData');
       if (response.isNew == true) {
         Get.offAllNamed(Routes.onBoarding);
       } else {
@@ -60,6 +61,8 @@ kakaoSignUp(BuildContext context) async {
           {'login_type': 'KAKAO'},
         ];
         await writeStorage(userData);
+
+        print('writeStorage $userData $tokenData');
         if (response.isNew == true) {
           Get.offAllNamed(Routes.onBoarding);
         } else {

@@ -20,21 +20,18 @@ class SplashController extends GetxController {
   Future<void> setData() async {
     accessToken.value = await storage.read(key: 'access_token');
     refreshToken.value = await storage.read(key: 'refresh_token');
-    // name.value = await storage.read(key: 'name');
-    // email.value = await storage.read(key: 'email');
-    // loginType.value = await storage.read(key: 'login_type');
     print("setData access ${accessToken.value} refresh ${refreshToken.value}");
     await Future.delayed(const Duration(seconds: 2));
   }
 
   @override
   void onInit() {
+    super.onInit();
     setData().then((_) {
-      isLoading.value = false;
       if (accessToken.value != null && refreshToken.value != null) {
         TicketController.to.onInit();
       }
+      isLoading.value = false;
     });
-    super.onInit();
   }
 }

@@ -163,4 +163,10 @@ class TicketController extends GetxController {
     super.onReady();
     _setTicketList();
   }
+
+  @override
+  void onInit() {
+    super.onInit();
+    _setTicketList();
+  }
 }
